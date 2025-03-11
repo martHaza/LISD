@@ -1,5 +1,7 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+
+
 </script>
 
 <template>
@@ -12,7 +14,33 @@ import HelloWorld from './components/HelloWorld.vue'
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
+  <button v-if="deferredPrompt" @click="installPWA">Install App</button>
 </template>
+
+<script>
+export default {
+  data() {
+    return { deferredPrompt: null };
+  },
+  mounted() {
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+    });
+  },
+  methods: {
+    installPWA() {
+      if (this.deferredPrompt) {
+        this.deferredPrompt.prompt();
+        this.deferredPrompt.userChoice.then((choice) => {
+          if (choice.outcome === "accepted") console.log("User installed PWA");
+          this.deferredPrompt = null;
+        });
+      }
+    },
+  },
+};
+</script>
 
 <style scoped>
 .logo {
