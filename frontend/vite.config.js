@@ -29,24 +29,6 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,png,svg,webp,woff2}"]
-      //   runtimeCaching: [
-      //     {
-      //       urlPattern: /^https:\/\/your-api-url\.com\/.*/, // Cache API responses
-      //       handler: 'NetworkFirst',
-      //       options: {
-      //         cacheName: 'api-cache',
-      //         expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 }
-      //       }
-      //     },
-      //     {
-      //       urlPattern: /^https:\/\/fonts\.(?:gstatic|googleapis)\.com\/.*/, // Cache Google Fonts
-      //       handler: 'CacheFirst',
-      //       options: {
-      //         cacheName: 'google-fonts',
-      //         expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 30 }
-      //       }
-      //     }
-      //   ]
       }
     })
   ]
