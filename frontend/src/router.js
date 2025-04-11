@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "./views/Login.vue";
 import Home from "./views/Home.vue";
+import Register from "./views/Register.vue";
 import { useAuthStore } from "./stores/auth";
 
 const routes = [
     { path: "/", component: Home, meta: { requiresAuth: true }},
     { path: "/login", component: Login },
+    { path: "/register", component: Register },
+    
 ];
 
 const router = createRouter({
@@ -15,12 +18,16 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
-    if (authStore.token && !authStore.user) {
+    if (authStore.token && (!authStore.roles || authStore.roles.length === 0)) {
       await authStore.checkAuth();
     }
-    if (to.meta.requiresAuth && !authStore.user) {
+    if (to.meta.requiresAuth && !authStore.token) {
       next('/login');
-    } else {
+    }
+    else if (authStore.token && (!authStore.roles || authStore.roles.length === 0) && to.path !== "/register") { // to.path to prevent infinite loop
+      next("/register");
+    }
+    else {
       next();
     }
 });

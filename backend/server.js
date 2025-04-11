@@ -7,6 +7,12 @@ const admin = require("firebase-admin");
 require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const userRolesRoutes = require("./routes/userRolesRoutes");
+const rolesRoutes = require("./routes/rolesRoutes");
+const localUserRoutes = require("./routes/localUserRoutes");
+
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,6 +26,10 @@ app.get("/", (req, res) => {
 });
 
 app.use("/", authRoutes);
+app.use("/api", userRoutes);
+app.use("/api", userRolesRoutes);
+app.use("/api", rolesRoutes);
+app.use("/api", localUserRoutes);
 
 const httpsOptions = {
   key: fs.readFileSync(process.env.SSL_KEY_PATH),

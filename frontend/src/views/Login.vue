@@ -6,8 +6,7 @@
             <input v-model="username" placeholder="Username" />
             <input v-model="password" type="password" placeholder="Password" />
             <button @click="usernameLogin">Login</button>
-            
-            <button @click="signInWithGoogle" v-if="!authStore.user">Sign in with Google</button>
+            <button @click="signInWithGoogle" v-if="!authStore.token">Sign in with Google</button>
         </div>
     </div>
   </template>

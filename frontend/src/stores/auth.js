@@ -3,8 +3,6 @@ import { loginWithGoogle, logout as firebaseLogout } from "../firebase";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    user: null,
-    isAllowed: false,
     roles: [],
     currentRole: "",
     token: localStorage.getItem("token") || null,
@@ -22,9 +20,13 @@ export const useAuthStore = defineStore("auth", {
           });
   
           const data = await response.json();
-          
+
           if(!data.isAllowed){
             alert("Neatļauts domēns!");
+            return;
+          }
+          if(!data.isActive){
+            alert("Deaktivizēts lietotājs!");
             return;
           }
 
@@ -47,6 +49,10 @@ export const useAuthStore = defineStore("auth", {
         if (!response.ok) throw new Error("Invalid username or password");
 
         const data = await response.json();
+        if(!data.isActive){
+          alert("Deaktivizēts lietotājs!");
+          return;
+        }
         this.setUserSession(data);
       } catch (error) {
         console.error("Login error:", error);
@@ -54,8 +60,6 @@ export const useAuthStore = defineStore("auth", {
     },
     
     async logout() {
-      this.user = null;
-      this.isAllowed = false;
       this.roles = [];
       this.currentRole = "";
       this.token = null;
@@ -69,13 +73,15 @@ export const useAuthStore = defineStore("auth", {
         this.currentRole = newRole;
       }
     },
-    setUserSession(data) {
-      this.user = { email: data.email };
-      this.roles = data.roles;
-      this.isAllowed = data.isAllowed;
-      this.currentRole = data.roles.includes("administrators") ? "administrators" : "lietotājs";
-      this.token = data.token;
 
+    setRoles(newRoles) {
+      this.roles = newRoles;
+    },
+    
+    setUserSession(data) {
+      this.roles = data.roles;
+      this.currentRole = data.roles.length == 0 ? "" : data.roles[0];
+      this.token = data.token;
       localStorage.setItem("token", data.token);
     },
     async checkAuth() {

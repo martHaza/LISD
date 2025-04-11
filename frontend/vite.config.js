@@ -14,9 +14,9 @@ export default defineConfig({
       registerType: 'autoUpdate', 
       devOptions: { enabled: true },
       manifest: {
-        name: "My Vue PWA",
-        short_name: "VuePWA",
-        description: "A Vue 3 Progressive Web App",
+        name: "LISD",
+        short_name: "LISD",
+        description: "Laboratory Inventory System Development",
         start_url: "/",
         display: "standalone",
         background_color: "#ffffff",

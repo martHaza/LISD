@@ -23,3 +23,4 @@ backend/.env
 backend/.output/
 backend/firebase-adminsdk.json
 /frontend/dev-dist
+*.pem
