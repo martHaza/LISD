@@ -25,53 +25,58 @@ const selectedDeviceId = ref('');
 let codeReader;
 
 const startScanner = async () => {
-if (!selectedDeviceId.value) return;
+  if (!selectedDeviceId.value) return;
 
-if (codeReader) {
+  if (codeReader) {
     codeReader.reset();
-}
+  }
 
-codeReader = new BrowserMultiFormatReader();
-await codeReader.decodeFromVideoDevice(
-    selectedDeviceId,
-    video.value,
-    (res, err) => {
-    if (res) {
-        result.value = res.getText();
-        // codeReader.reset();
-    }
-    }
-);
+  try {
+    codeReader = new BrowserMultiFormatReader();
+    await codeReader.decodeFromVideoDevice(
+      selectedDeviceId.value,
+      video.value,
+      (res, err) => {
+        if (res) {
+          result.value = res.getText();
+          // codeReader.reset();
+        }
+      }
+    );
+    error.value = '';
+  } catch (err) {
+    console.error('Failed to start scanner:', err);
+    error.value = 'Nevar piekļūt kamerai.';
+  }
 };
 
 onMounted(async () => {
-try {
-    await navigator.mediaDevices.getUserMedia({ video: true });
-
+  try {
     const devices = await BrowserMultiFormatReader.listVideoInputDevices();
     videoDevices.value = devices;
 
     if (devices.length > 0) {
-    // Try to select back camera first
-    const backCam = devices.find((d) =>
-        d.label.toLowerCase().includes('back') || d.label.toLowerCase().includes('environment')
-    );
+      const backCam = devices.find((d) =>
+        d.label.toLowerCase().includes('back') ||
+        d.label.toLowerCase().includes('environment')
+      );
 
-    selectedDeviceId.value = backCam?.deviceId || devices[0].deviceId;
-    await startScanner();
+      selectedDeviceId.value = backCam?.deviceId || devices[0].deviceId;
+      await startScanner();
     } else {
-    error.value = 'No cameras found.';
+      error.value = 'Nav atrasta neviena kamera.';
     }
-} catch (err) {
-    error.value = 'Cannot access camera.';
-    console.error(err);
-}
+  } catch (err) {
+    console.error('Error listing video devices:', err);
+    error.value = 'Nevar iegūt kameru sarakstu.';
+  }
 });
 
 onBeforeUnmount(() => {
-codeReader?.reset();
+  codeReader?.reset();
 });
 </script>
+
 
 <style scoped>
     .scanner {
