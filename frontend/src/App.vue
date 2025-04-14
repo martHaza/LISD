@@ -1,10 +1,10 @@
 <template>
   <div>
     <nav  v-if="authStore.token">
-      <router-link to="/">Datoru pārskats </router-link> |
-      <router-link to="/">Apskatīt resursu aizņemtības pārskatu </router-link> |
-      <router-link to="/">Pieteikšanās resursu lietošanai </router-link> |
-      <router-link to="/">Rezervāciju veidošana </router-link> |
+      <router-link to="/qrtest">Info pieprasījums </router-link> |
+      <router-link to="/">Inventāra pārskate </router-link> |
+      <router-link to="/">Pieteikšanās inventāra lietošanai </router-link> |
+      <router-link to="/">Pieteikt bojātu inventāru </router-link> |
       <button v-if="deferredPrompt" @click="installPWA">Instalēt PWA</button>
       <button v-if="authStore.token" @click="logoutAndRedirect">Logout</button>
       <select v-if="authStore.roles && authStore.roles.length > 1" v-model="authStore.currentRole">

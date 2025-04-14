@@ -2,12 +2,14 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "./views/Login.vue";
 import Home from "./views/Home.vue";
 import Register from "./views/Register.vue";
+import QRTest from "./views/QRTest.vue";
 import { useAuthStore } from "./stores/auth";
 
 const routes = [
     { path: "/", component: Home, meta: { requiresAuth: true }},
     { path: "/login", component: Login },
     { path: "/register", component: Register },
+    { path: "/qrtest", component: QRTest },
     
 ];
 
