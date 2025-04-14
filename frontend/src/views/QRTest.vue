@@ -33,7 +33,7 @@ if (codeReader) {
 
 codeReader = new BrowserMultiFormatReader();
 await codeReader.decodeFromVideoDevice(
-    selectedDeviceId.value,
+    selectedDeviceId,
     video.value,
     (res, err) => {
     if (res) {
