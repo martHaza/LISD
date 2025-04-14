@@ -22,7 +22,11 @@ onMounted(async () => {
     try {
         // first try using back camera
         await codeReader.decodeFromConstraints(
-            undefined,
+            {
+            video: {
+                facingMode: { ideal: 'environment' },
+            },
+            },
             video.value,
             (res, err) => {
             if (res) {
@@ -38,7 +42,7 @@ onMounted(async () => {
 
         if (firstDevice) {
             await codeReader.decodeFromVideoDevice(
-            undefined,
+            firstDevice,
             video.value,
             (res, err) => {
                 if (res) {
