@@ -1,7 +1,8 @@
 <template>
     <div class="scanner">
-      <video ref="video" autoplay></video>
+      <video ref="video" autoplay playsinline></video>
       <p v-if="result">Skenešanas rezultāts: <strong>{{ result }}</strong></p>
+      <p v-if="error" style="color: red">{{ error }}</p>
     </div>
   </template>
   
@@ -11,17 +12,20 @@
   
   const video = ref(null);
   const result = ref('');
+  const error = ref('');
   let codeReader;
   
   onMounted(async () => {
-    codeReader = new BrowserMultiFormatReader();
-  
     try {
+      await navigator.mediaDevices.getUserMedia({ video: true });
+  
+      codeReader = new BrowserMultiFormatReader();
+  
       const devices = await BrowserMultiFormatReader.listVideoInputDevices();
       const selectedDeviceId = devices[0]?.deviceId;
   
       if (!selectedDeviceId) {
-        console.warn('No camera device found');
+        error.value = 'Nav atrasta kamera.';
         return;
       }
   
@@ -36,7 +40,8 @@
         }
       );
     } catch (err) {
-      console.error('Error initializing scanner:', err);
+      error.value = 'Kamera nav pieejama.';
+      console.error('Camera access error:', err);
     }
   });
   
