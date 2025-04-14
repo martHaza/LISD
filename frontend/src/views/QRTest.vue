@@ -53,6 +53,8 @@ const startScanner = async () => {
 onMounted(async () => {
   try {
     await navigator.mediaDevices.getUserMedia({ video: true });
+    stream.getTracks().forEach(track => track.stop());
+    
     const devices = await BrowserMultiFormatReader.listVideoInputDevices();
     videoDevices.value = devices;
 
