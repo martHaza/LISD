@@ -1,94 +1,79 @@
 <template>
     <div class="scanner">
-      <video ref="video" autoplay playsinline></video>
-      <button @click="switchCamera">Pārslēgt kameru</button>
-      <p v-if="result">Skenēšanas rezultāts: <strong>{{ result }}</strong></p>
+        <video ref="video" autoplay playsinline></video>
+        <p v-if="result">Skenešanas rezultāts: <strong>{{ result }}</strong></p>
+        <p v-if="error" style="color: red">{{ error }}</p>
     </div>
-  </template>
+</template>
   
-  <script setup>
-  import { ref, onMounted, onBeforeUnmount } from 'vue';
-  import { BrowserMultiFormatReader } from '@zxing/browser';
-  
-  const video = ref(null);
-  const result = ref('');
-  const codeReader = new BrowserMultiFormatReader();
-  let devices = [];
-  let currentDeviceIndex = 0;
-  let currentStream = null;
-  
-  const startScanner = async (deviceId) => {
-    if (currentStream) {
-      currentStream.getTracks().forEach(track => track.stop());
-    }
-  
-    await codeReader.decodeFromVideoDevice(
-      deviceId,
-      video.value,
-      (res, err) => {
-        if (res) {
-          result.value = res.getText();
-          // codeReader.reset();
-        }
-      }
-    );
-  };
-  
-  const switchCamera = async () => {
-    currentDeviceIndex = (currentDeviceIndex + 1) % devices.length;
-    const deviceId = devices[currentDeviceIndex].deviceId;
-    await startScanner(deviceId);
-  };
-  
-  onMounted(async () => {
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { BrowserMultiFormatReader } from '@zxing/browser';
+
+const video = ref(null);
+const result = ref('');
+const error = ref('');
+let codeReader;
+
+onMounted(async () => {
+    await navigator.mediaDevices.getUserMedia({ video: true });
+    codeReader = new BrowserMultiFormatReader();
+
     try {
-      await navigator.mediaDevices.getUserMedia({ video: true });
-  
-      devices = await BrowserMultiFormatReader.listVideoInputDevices();
-  
-      if (!devices.length) {
-        console.warn('No camera devices found');
-        return;
-      }
-  
-      await startScanner(devices[currentDeviceIndex].deviceId);
-    } catch (err) {
-      console.error('Camera error:', err);
+        // first try using back camera
+        await codeReader.decodeFromConstraints(
+            {
+            video: {
+                facingMode: { ideal: 'environment' },
+            },
+            },
+            video.value,
+            (res, err) => {
+            if (res) {
+                result.value = res.getText();
+                // codeReader.reset();
+            }
+            }
+    );
+    } catch (e) {
+        // if no back camera use default camera
+        const devices = await BrowserMultiFormatReader.listVideoInputDevices();
+        const firstDevice = devices[0]?.deviceId;
+
+        if (firstDevice) {
+            await codeReader.decodeFromVideoDevice(
+            firstDevice,
+            video.value,
+            (res, err) => {
+                if (res) {
+                result.value = res.getText();
+                // codeReader.reset();
+                }
+            }
+            );
+        } else {
+            console.error('No video input devices found.');
+        }
     }
-  });
+});
+
+
+onBeforeUnmount(() => {
+    codeReader?.reset();
+});
+</script>
   
-  onBeforeUnmount(() => {
-    codeReader.reset();
-    if (currentStream) {
-      currentStream.getTracks().forEach(track => track.stop());
+<style scoped>
+    .scanner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
-  });
-  </script>
-  
-  <style scoped>
-  .scanner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-  video {
-    width: 100%;
-    max-width: 400px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-  }
-  button {
-    padding: 0.5rem 1rem;
-    font-weight: bold;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  button:hover {
-    background-color: #0056b3;
-  }
-  </style>
+    video {
+        width: 100%;
+        max-width: 400px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+    }
+</style>
   
