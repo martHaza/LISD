@@ -1,7 +1,7 @@
 <template>
     <div>
       <div id="reader" style="width: 100%"></div>
-      <p v-if="scannedCode">Scanned: {{ scannedCode }}</p>
+      <p v-if="scannedCode">Skenēšanas rezultāts: {{ scannedCode }}</p>
       <button @click="stopScanner" v-if="scannerRunning">Stop Scanner</button>
     </div>
   </template>
