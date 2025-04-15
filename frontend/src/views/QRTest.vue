@@ -77,7 +77,7 @@
   };
   
   onBeforeUnmount(() => {
-    codeReader?.reset();
+    codeReader?.stopContinuousDecode();
   });
   </script>
   

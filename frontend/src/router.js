@@ -3,6 +3,8 @@ import Login from "./views/Login.vue";
 import Home from "./views/Home.vue";
 import Register from "./views/Register.vue";
 import QRTest from "./views/QRTest.vue";
+import QRTest2 from "./views/QRTest2.vue";
+import QRTest3 from "./views/QRTest3.vue";
 import { useAuthStore } from "./stores/auth";
 
 const routes = [
@@ -10,6 +12,8 @@ const routes = [
     { path: "/login", component: Login },
     { path: "/register", component: Register },
     { path: "/qrtest", component: QRTest },
+    { path: "/qrtest2", component: QRTest2 },
+    { path: "/qrtest3", component: QRTest3 },
     
 ];
 

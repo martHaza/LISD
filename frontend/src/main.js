@@ -5,10 +5,17 @@ import router from "./router";
 import { createPinia } from "pinia";
 import { registerSW } from 'virtual:pwa-register'
 
+import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader';
+
 const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
+
+app.component('QrcodeStream', QrcodeStream);
+app.component('QrcodeDropZone', QrcodeDropZone);
+app.component('QrcodeCapture', QrcodeCapture);
+
 app.mount("#app");
 
 registerSW({
