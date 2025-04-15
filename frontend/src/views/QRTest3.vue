@@ -1,17 +1,17 @@
 <template>
     <div>
-      <div id="reader" style="width: 100%"></div>
-      <p v-if="scannedCode">Skenēšanas rezultāts: {{ scannedCode }}</p>
-      <button @click="stopScanner" v-if="scannerRunning">Stop Scanner</button>
+        <div id="reader" style="width: 100%"></div>
+        <p v-if="scannedCode">Skenēšanas rezultāts: {{ scannedCode }}</p>
+        <button @click="stopScanner" v-if="scannerRunning">Beigt skenēšanu</button>
     </div>
-  </template>
+</template>
   
-  <script setup>
-  import { onMounted, onBeforeUnmount, ref } from 'vue'
+<script setup>
+import { onMounted, onBeforeUnmount, ref } from 'vue'
 import {
-  Html5Qrcode,
-  Html5QrcodeScanType,
-  Html5QrcodeSupportedFormats
+    Html5Qrcode,
+    Html5QrcodeScanType,
+    Html5QrcodeSupportedFormats
 } from 'html5-qrcode'
 
 const scannedCode = ref(null)
@@ -25,7 +25,6 @@ const startScanner = async () => {
 
     const config = {
       fps: 10,
-    //   qrbox: { width: 250, height: 250 },
       supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
       formatsToSupport: [
         Html5QrcodeSupportedFormats.QR_CODE,
