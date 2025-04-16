@@ -21,7 +21,7 @@
     Html5QrcodeScanType,
     Html5QrcodeSupportedFormats
   } from 'html5-qrcode'
-  import axios from 'axios'
+  import api from "../services/api";
   
   const scannedCode = ref(null)
   const scannerRunning = ref(false)
@@ -54,7 +54,7 @@
           console.log("Decoded:", decodedText, decodedResult)
   
           try {
-            const { data } = await axios.get(`/api/items/item_number/${decodedText}`)
+            const { data } = await api.get(`/items/item_number/${decodedText}`)
             itemData.value = data
           } catch (err) {
             if (err.response?.status === 404) {
