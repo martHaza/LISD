@@ -11,7 +11,7 @@ const routes = [
     { path: "/login", component: Login },
     { path: "/register", component: Register },
     { path: "/qrtest", component: QRTest },
-    { path: "/qrtest2", component: QRTest2 },d
+    { path: "/qrtest2", component: QRTest2 },
     
 ];
 
