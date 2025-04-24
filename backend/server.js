@@ -12,6 +12,7 @@ const userRolesRoutes = require("./routes/userRolesRoutes");
 const rolesRoutes = require("./routes/rolesRoutes");
 const localUserRoutes = require("./routes/localUserRoutes");
 const itemRoutes = require("./routes/itemRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 
 
 const app = express();
@@ -32,6 +33,9 @@ app.use("/api", userRolesRoutes);
 app.use("/api", rolesRoutes);
 app.use("/api", localUserRoutes);
 app.use("/api", itemRoutes);
+
+app.use('/uploads', express.static('uploads'));
+app.use("/api", uploadRoutes);
 
 const httpsOptions = {
   key: fs.readFileSync(process.env.SSL_KEY_PATH),

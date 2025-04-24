@@ -1,9 +1,9 @@
 <template>
   <div>
     <nav  v-if="authStore.token">
-      <router-link to="/qrtest">Info pieprasījums (qrtest1)</router-link> |
-      <router-link to="/qrtest2">Inventāra pārskate (qrtest2)</router-link> |
-      <router-link to="/">Pieteikšanās inventāra lietošanai</router-link> |
+      <router-link to="/qrtest">Info pieprasījums (qrtest)</router-link> |
+      <router-link to="/image-upload">Inventāra pārskate (image-uploader)</router-link> |
+      <router-link to="/gallery">Pieteikšanās inventāra lietošanai (gallery)</router-link> |
       <router-link to="/">Pieteikt bojātu inventāru </router-link> |
       <button v-if="deferredPrompt" @click="installPWA">Instalēt PWA</button>
       <button v-if="authStore.token" @click="logoutAndRedirect">Logout</button>
