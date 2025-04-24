@@ -49,7 +49,11 @@ async function toggleCamera() {
   usingCamera.value = !usingCamera.value;
   if (usingCamera.value) {
     try {
-      stream.value = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.value = await navigator.mediaDevices.getUserMedia({ 
+        video: {
+          facingMode: { ideal: 'environment' }
+        }
+      });
       video.value.srcObject = stream.value;
     } catch (err) {
       console.error('Camera access failed', err);
