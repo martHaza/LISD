@@ -13,6 +13,7 @@
     </div>
 
     <button @click="stopScanner" v-if="scannerRunning">Beigt skenēšanu</button>
+    <button @click="resumeScanner" v-else-if="scannedCode">Turpināt</button>
   </div>
 </template>
 
@@ -40,11 +41,12 @@ const startScanner = async () => {
       fps: 10,
       supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
       formatsToSupport: [
-        Html5QrcodeSupportedFormats.QR_CODE,
-        Html5QrcodeSupportedFormats.CODE_128,
-        Html5QrcodeSupportedFormats.EAN_13,
-        Html5QrcodeSupportedFormats.UPC_A,
-        Html5QrcodeSupportedFormats.UPC_E
+        // Html5QrcodeSupportedFormats.QR_CODE,
+        // Html5QrcodeSupportedFormats.CODE_128,
+        // Html5QrcodeSupportedFormats.EAN_13,
+        // Html5QrcodeSupportedFormats.UPC_A,
+        // Html5QrcodeSupportedFormats.UPC_E,
+        Html5QrcodeSupportedFormats.CODE_39
       ]
     }
 
@@ -58,6 +60,7 @@ const startScanner = async () => {
         try {
           const { data } = await api.get(`/items/item_number/${decodedText}`)
           itemData.value = data
+          await stopScanner()
         } catch (err) {
           if (err.response?.status === 404) {
             itemData.value = null
@@ -83,6 +86,12 @@ const stopScanner = async () => {
     html5QrCode.clear()
     scannerRunning.value = false
   }
+}
+
+const resumeScanner = async () => {
+  itemData.value = null
+  scannedCode.value = null
+  await startScanner()
 }
 
 onMounted(() => {
