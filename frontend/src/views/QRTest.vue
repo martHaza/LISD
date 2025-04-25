@@ -13,7 +13,7 @@
     </div>
 
     <button @click="stopScanner" v-if="scannerRunning">Beigt skenēšanu</button>
-    <button @click="resumeScanner" v-else-if="scannedCode">Turpināt</button>
+    <button @click="resumeScanner" v-else-if="scannerPaused">Turpināt</button>
   </div>
 </template>
 
@@ -28,6 +28,7 @@ import api from "../services/api";
 
 const scannedCode = ref(null)
 const scannerRunning = ref(false)
+const scannerPaused = ref(false)
 const itemData = ref(null)
 
 let html5QrCode = null
@@ -60,7 +61,9 @@ const startScanner = async () => {
         try {
           const { data } = await api.get(`/items/item_number/${decodedText}`)
           itemData.value = data
-          await stopScanner()
+          // await stopScanner()
+          await html5QrCode.pause()
+          scannerPaused.value = true
         } catch (err) {
           if (err.response?.status === 404) {
             itemData.value = null
@@ -83,15 +86,19 @@ const startScanner = async () => {
 const stopScanner = async () => {
   if (html5QrCode && scannerRunning.value) {
     await html5QrCode.stop()
-    html5QrCode.clear()
+    await html5QrCode.clear()
     scannerRunning.value = false
+    scannerPaused.value = false
   }
 }
 
 const resumeScanner = async () => {
   itemData.value = null
   scannedCode.value = null
-  await startScanner()
+  if (html5QrCode && scannerPaused.value) {
+    await html5QrCode.resume()
+    scannerPaused.value = false
+  }
 }
 
 onMounted(() => {
