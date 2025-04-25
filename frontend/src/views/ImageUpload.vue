@@ -1,31 +1,23 @@
 <template>
-  <div class="flex flex-col gap-4 items-start">
-
-    <video ref="video" autoplay playsinline class="w-64 h-64 border rounded object-cover" v-show="!photoTaken && usingCamera"></video>
-
-    <canvas ref="canvas" class="w-64 h-64 border rounded object-cover" v-show="photoTaken && usingCamera"></canvas>
-
-    <div v-if="previewUrl && !usingCamera" class="w-64 h-64 border rounded overflow-hidden">
-      <img :src="previewUrl" alt="Preview" class="w-full h-full object-cover" />
+  <div class="container">
+    <button @click="toggleCamera">
+      {{ usingCamera ? 'Izmantot failu pārlūku' : 'Izmantot kameru' }}
+    </button>
+    <video ref="video" autoplay playsinline v-show="!photoTaken && usingCamera"></video>
+    <canvas ref="canvas" v-show="photoTaken && usingCamera"></canvas>
+    <div v-if="previewUrl && !usingCamera" class="image-preview">
+      <img :src="previewUrl" alt="Preview" />
     </div>
 
-    <div class="flex gap-2">
-      <button @click="toggleCamera" class="btn">
-        {{ usingCamera ? 'Izmantot failu pārlūku' : 'Izmantot kameru' }}
-      </button>
+    <div class="controls">
 
-      <input v-if="!usingCamera"
-        type="file"
-        accept="image/*"
-        @change="handleFileChange"
-        class="file-input file-input-bordered w-full max-w-xs"
-      />
-      <button v-if="usingCamera && !photoTaken" @click="takePhoto" class="btn btn-primary">Uzņemt</button>
+      <input v-if="!usingCamera" type="file" accept="image/*" @change="handleFileChange" />
+      <button v-if="usingCamera && !photoTaken" @click="takePhoto">Uzņemt</button>
     </div>
 
-    <div v-if="canSubmit" class="flex gap-2">
-      <button @click="submitImage" class="btn btn-success">Iesniegt</button>
-      <button @click="clear" class="btn btn-outline">Dzēst</button>
+    <div v-if="canSubmit" class="controls">
+      <button @click="submitImage">Iesniegt</button>
+      <button @click="clear">Dzēst</button>
     </div>
   </div>
 </template>
@@ -49,7 +41,7 @@ async function toggleCamera() {
   usingCamera.value = !usingCamera.value;
   if (usingCamera.value) {
     try {
-      stream.value = await navigator.mediaDevices.getUserMedia({ 
+      stream.value = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: { ideal: 'environment' }
         }
@@ -125,3 +117,27 @@ async function submitImage() {
   }
 }
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+video,
+canvas,
+.image-preview img {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+</style>

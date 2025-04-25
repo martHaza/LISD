@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div id="reader" style="width: 100%"></div>
+    <div id="reader"></div>
 
     <p v-if="scannedCode">Skenēšanas rezultāts: {{ scannedCode }}</p>
 
-    <div v-if="itemData" style="margin-top: 1em">
+    <div v-if="itemData">
       <p><strong>Inventāra numurs:</strong> {{ itemData.item_number || '-' }}</p>
       <p><strong>Nosaukums:</strong> {{ itemData.title || '-' }}</p>
       <p><strong>Apraksts:</strong> {{ itemData.description || '-' }}</p>
