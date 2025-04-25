@@ -12,7 +12,7 @@
       <p><strong>Atrašanās vieta:</strong> {{ itemData.room || '-' }}</p>
     </div>
 
-    <button @click="stopScanner" v-if="scannerRunning">Beigt skenēšanu</button>
+    <button @click="stopScanner" v-if="scannerRunning && !scannerPaused">Beigt skenēšanu</button>
     <button @click="resumeScanner" v-else-if="scannerPaused">Turpināt</button>
   </div>
 </template>
