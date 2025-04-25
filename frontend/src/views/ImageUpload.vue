@@ -56,6 +56,31 @@ async function toggleCamera() {
   }
 }
 
+async function resizeImage(file, maxWidth = 1024, maxHeight = 1024) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      let { width, height } = img;
+
+      const scale = Math.min(maxWidth / width, maxHeight / height, 1);
+      width = width * scale;
+      height = height * scale;
+
+      const offscreenCanvas = document.createElement('canvas');
+      offscreenCanvas.width = width;
+      offscreenCanvas.height = height;
+      const ctx = offscreenCanvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+
+      offscreenCanvas.toBlob((blob) => {
+        resolve(blob);
+      }, 'image/jpeg', 0.8); //affects quality
+    };
+    img.src = url;
+  });
+}
+
 function stopCamera() {
   if (stream.value) {
     stream.value.getTracks().forEach(track => track.stop());
@@ -70,20 +95,22 @@ function takePhoto() {
   canvas.value.width = video.value.videoWidth;
   canvas.value.height = video.value.videoHeight;
   context.drawImage(video.value, 0, 0);
-  canvas.value.toBlob(blob => {
+  canvas.value.toBlob(async (blob) => {
     if (blob) {
-      selectedFile.value = blob;
-      previewUrl.value = URL.createObjectURL(blob);
+      const resized = await resizeImage(blob);
+      selectedFile.value = resized;
+      previewUrl.value = URL.createObjectURL(resized);
       photoTaken.value = true;
     }
   }, 'image/jpeg');
 }
 
-function handleFileChange(e) {
+async function handleFileChange(e) {
   const file = e.target.files[0];
   if (file && file.type.startsWith('image/')) {
-    selectedFile.value = file;
-    previewUrl.value = URL.createObjectURL(file);
+    const resized = await resizeImage(file);
+    selectedFile.value = resized;
+    previewUrl.value = URL.createObjectURL(resized);
     photoTaken.value = false;
     usingCamera.value = false;
   }
