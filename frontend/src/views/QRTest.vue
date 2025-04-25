@@ -13,7 +13,7 @@
     </div>
 
     <button @click="stopScanner" v-if="scannerRunning && !scannerPaused">Beigt skenēšanu</button>
-    <button @click="resumeScanner" v-else-if="scannerPaused">Turpināt</button>
+    <button @click="resumeScanner" v-if="scannerPaused">Turpināt</button>
   </div>
 </template>
 
