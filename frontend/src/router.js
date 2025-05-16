@@ -5,6 +5,7 @@ import Register from "./views/Register.vue";
 import QRTest from "./views/QRTest.vue";
 import ImageUpload from "./views/ImageUpload.vue";
 import Gallery from "./views/Gallery.vue";
+import UserOverview from "./views/UserOverview.vue";
 import { useAuthStore } from "./stores/auth";
 
 const routes = [
@@ -14,7 +15,7 @@ const routes = [
     { path: "/qrtest", component: QRTest , meta: { requiresAuth: true }},
     { path: "/image-upload", component: ImageUpload , meta: { requiresAuth: true }},
     { path: "/gallery", component: Gallery , meta: { requiresAuth: true }},
-    
+    { path: "/user_overview", component: UserOverview, meta: { requiresAuth: true }},
 ];
 
 const router = createRouter({

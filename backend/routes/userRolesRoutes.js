@@ -10,7 +10,7 @@ const router = express.Router();
 const { authenticateUser, authorizeRole } = require("../middleware/authMiddleware");
 const jwt = require('jsonwebtoken');
 
-router.get("/user_roles/id/:userId", authorizeRole(["laborants", "materiāli atbildīgā persona", "administrators"]), authenticateUser, async (req, res) => {
+router.get("/user_roles/id/:userId", authenticateUser, authorizeRole(["laborants", "materiāli atbildīgā persona", "administrators"]), async (req, res) => {
     try {
         const roles = await getUserRoles(req.params.userId);
         res.json(roles);

@@ -5,6 +5,7 @@
       <router-link to="/image-upload">Inventāra pārskate (image-uploader)</router-link> |
       <router-link to="/gallery">Pieteikšanās inventāra lietošanai (gallery)</router-link> |
       <router-link to="/">Pieteikt bojātu inventāru </router-link> |
+      <router-link v-if="authStore.currentRole=='administrators'" to="/user_overview">Lietotāju pārvaldība </router-link> |
       <button v-if="deferredPrompt" @click="installPWA">Instalēt PWA</button>
       <button v-if="authStore.token" @click="logoutAndRedirect">Logout</button>
       <select v-if="authStore.roles && authStore.roles.length > 1" v-model="authStore.currentRole">
