@@ -70,7 +70,7 @@ async function loginWithGoogle(idToken) {
 
         user.roles = roles;
         const token = generateToken(user);
-        return { token, /*email,*/ roles, isAllowed, isActive: user.is_active };
+        return { token, roles, isAllowed, isActive: user.is_active };
     } catch (error) {
         console.error("Error verifying token:", error);
         return { error: "Unauthorized", status: 401 };
@@ -99,10 +99,10 @@ async function loginWithUsernamePassword(username, password) {
 
         const roles = await getUserRoles(user.username);
         const token = jwt.sign({ user_id: user.user_id, username: user.username, roles }, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_IN || "1h",
+            expiresIn: process.env.JWT_EXPIRES_IN
         });
 
-        return { token, /*email: user.email,*/ roles, isAllowed, isActive: user.is_active };
+        return { token, roles, isAllowed, isActive: user.is_active };
     } catch (error) {
         console.error("Login error:", error);
         return { error: "Server error", status: 500 };
