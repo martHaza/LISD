@@ -41,7 +41,7 @@ function generateToken(user) {
     return jwt.sign(
         { user_id: user.user_id, username: user.username, roles: user.roles },
         process.env.JWT_SECRET, 
-        { expiresIn: process.env.JWT_EXPIRES_IN || "1h" }
+        { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 }
 
