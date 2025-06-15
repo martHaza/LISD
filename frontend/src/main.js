@@ -16,7 +16,7 @@ registerSW({
     onOfflineReady() {
         console.log('PWA is ready to work offline.')
     },
-    onNeedRefresh() {
-        window.location.reload()
-    },
+    // onNeedRefresh() {
+    //     window.location.reload()
+    // },
 })
