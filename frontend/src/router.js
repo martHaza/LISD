@@ -7,6 +7,7 @@ import ImageUpload from "./views/ImageUpload.vue";
 import Gallery from "./views/Gallery.vue";
 import UserOverview from "./views/UserOverview.vue";
 import { useAuthStore } from "./stores/auth";
+import InventoryOverview from "./views/InventoryOverview.vue";
 
 const routes = [
     { path: "/", component: Home, meta: { requiresAuth: true }},
@@ -16,6 +17,7 @@ const routes = [
     { path: "/image-upload", component: ImageUpload , meta: { requiresAuth: true }},
     { path: "/gallery", component: Gallery , meta: { requiresAuth: true }},
     { path: "/user_overview", component: UserOverview, meta: { requiresAuth: true }},
+    { path: "/inventory-overview", component: InventoryOverview, meta: { requiresAuth: true }},
 ];
 
 const router = createRouter({
