@@ -22,5 +22,6 @@ async function getAllItems() {
 }
 
 module.exports = {
-    getItemByItemNumber
+    getItemByItemNumber,
+    getAllItems
 };
