@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed} from 'vue';
 import api from "../services/api";
-import { useAuthStore } from "./../store/auth";
+import { useAuthStore } from "../stores/auth";
 
 const items = ref([]);
 // const facLocation = ref([]);
