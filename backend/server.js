@@ -27,6 +27,11 @@ app.get("/", (req, res) => {
   res.json({ message: "Inventarizācijas sistēma laboratorijām" });
 });
 
+app.get('/api/items', (req, res, next) => {
+  console.log('GET /items hit!');
+  next();
+});
+
 app.use("/", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", userRolesRoutes);

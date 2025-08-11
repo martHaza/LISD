@@ -14,13 +14,15 @@ const searchQuery = ref('');
 // const showCreateModal = ref(false);
 const authStore = useAuthStore();
 
-const fetchItems = async() => {
-    try {
-        const response = await api.get('/items');
-        items.value = response.data;
-    } catch (error) {
-        console.error('Error fetching items', error);
-    }
+const fetchItems = async () => {
+  console.log('Fetching items from API...');
+  try {
+    const response = await api.get('/items');
+    console.log('Response:', response.data);
+    items.value = response.data;
+  } catch (error) {
+    console.error('Error fetching items', error);
+  }
 };
 
 const filteredItems = computed(() => {
