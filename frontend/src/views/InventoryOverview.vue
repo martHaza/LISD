@@ -4,26 +4,51 @@ import api from "../services/api";
 import { useAuthStore } from "../stores/auth";
 
 const items = ref([]);
-// const facLocation = ref([]);
-// const jurLocation = ref([]);
-// const tempLocation = ref([]);
-// const responsiblePersons = ref([]);
+const facLocation = ref([]);
+const jurLocation = ref([]);
+const tempLocation = ref([]);
+const responsiblePersons = ref([]);
 const searchQuery = ref('');
-// const selectedLocation = ref('');
-// const selectedPerson = ref('');
-// const showCreateModal = ref(false);
+const selectedLocation = ref('');
+const selectedPerson = ref('');
+const showCreateModal = ref(false);
 const authStore = useAuthStore();
 
+const newItem = ({ title: '', item_number: '', item_code: '', description: '', exploitation_date: '', juridical_location_id: '',
+  factual_location_id: '', temp_location_id: '', user_id: '' });
+
 const fetchItems = async () => {
-  console.log('Fetching items from API...');
   try {
     const response = await api.get('/items');
-    console.log('Response:', response.data);
     items.value = response.data;
   } catch (error) {
     console.error('Error fetching items', error);
   }
 };
+
+const fetchPersons = async () => {
+  try {
+    const response = await api.get('/users');
+    responsiblePersons.value = response.data;
+  } catch (error) {
+    console.error('Error fetching users', error);
+  }
+}
+
+const fetchLocations = async () => {
+  try {
+    const jur = await api.get('/juridical-location');
+    jurLocation.value = jur.data;
+
+    const fac = await api.get('/factual-location');
+    facLocation.value = fac.data;
+
+    const temp = await api.get('/temporary-location');
+    tempLocation.value = temp.data;
+  } catch (error) {
+    console.error('Error fetching locations', error);
+  }
+}
 
 const filteredItems = computed(() => {
     const query = searchQuery.value.toLowerCase();
