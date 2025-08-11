@@ -19,4 +19,14 @@ router.get("/items/item_number/:item_number", authenticateUser, async (req, res)
   }
 });
 
+router.get("/items", authenticateUser, async (req, res) => {
+  try {
+    const items = await getAllItems(); 
+    res.json(items);
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    res.status(500).json({ message: "Error fetching items" });
+  }
+});
+
 module.exports = router;
