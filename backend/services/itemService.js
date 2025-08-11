@@ -12,6 +12,15 @@ async function getItemByItemNumber(itemId) {
     return rows[0] || null;
 }
 
+async function getAllItems() {
+    const [rows] = await pool.query(`
+        SELECT items.item_number, items.title, items.code, items.description, items.exploitation_date, locations.room
+        FROM items
+        LEFT JOIN locations ON items.factual_location_id = locations.location_id;
+    `);
+    return rows;
+}
+
 module.exports = {
     getItemByItemNumber
 };
