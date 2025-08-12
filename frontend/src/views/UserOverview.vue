@@ -15,9 +15,22 @@ const newUser = ref({ email: '', user_type: 'Local', username: '', password: '',
 
 const openEditModal = (user) => {
   selectedUser.value = { ...user };
-  selectedUserRoles.value = Array.isArray(user.roles)
-    ? user.roles
-    : (user.roles || '').toString().split(',').filter(Boolean);
+
+  // selectedUserRoles.value = Array.isArray(user.roles)
+  //   ? user.roles
+  //   : (user.roles || '').toString().split(',').filter(Boolean);
+  // showEditModal.value = true;
+
+  if (Array.isArray(user.roles)) {
+    selectedUserRoles.value = user.roles.filter(r => typeof r === 'string' && r.trim() !== '').map(r => r.trim());
+} else if (typeof user.roles === 'string' && user.roles.trim() !== '') {
+    selectedUserRoles.value = user.roles.split(',').map(r => r.trim()).filter(Boolean);
+} else {
+    selectedUserRoles.value = [];
+ }
+
+  selectedUser.value.phone_number = user.phone_number || '';
+
   showEditModal.value = true;
 };
 
@@ -71,12 +84,24 @@ const saveUserRoles = async () => {
   try {
     const roleMap = Object.fromEntries(roles.value.map(role => [role.name, role.role_id]));
 
-    const originalRoles = Array.isArray(selectedUser.value.roles)
-      ? selectedUser.value.roles
-      : (selectedUser.value.roles || '').toString().split(',').filter(Boolean);
+    let originalRoles = [];
+    if (Array.isArray(selectedUser.value.roles)) {
+      originalRoles = selectedUser.value.roles
+        .filter(r => typeof r === 'string' && r.trim() !== '')
+        .map(r => r.trim());
+    } else if (typeof selectedUser.value.roles === 'string' && selectedUser.value.roles.trim() !== '') {
+      originalRoles = selectedUser.value.roles
+        .split(',')
+        .map(r => r.trim())
+        .filter(Boolean);
+    }
+
+    // const originalRoles = Array.isArray(selectedUser.value.roles)
+    //   ? selectedUser.value.roles
+    //   : (selectedUser.value.roles || '').toString().split(',').filter(Boolean);
 
 
-    const rolesToAdd = selectedUserRoles.value.filter(role => !selectedUser.value.roles.includes(role));
+    const rolesToAdd = selectedUserRoles.value.filter(role => !originalUser.includes(role));
     const rolesToRemove = originalRoles.filter(role => !selectedUserRoles.value.includes(role));
 
     for (const role of rolesToAdd) {
