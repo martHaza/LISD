@@ -121,8 +121,8 @@ onMounted(() => {
         <option v-for="user in responsiblePersons" :key="user.user_id" :value="user.user_id">
           {{ user.username || user.email }}
           </option>
-          <button @click="openCreateModal" class="bg-green-500 text-white px-3 py-1 rounded">Pievienot inventāru</button>
       </select>
+      <button @click="openCreateModal" class="bg-green-500 text-white px-3 py-1 rounded">Pievienot inventāru</button>
     </div>
 
     <table class="w-full border-collapse border border-gray-300">
