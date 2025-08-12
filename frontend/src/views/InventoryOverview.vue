@@ -83,7 +83,7 @@ const saveNewItem = async () => {
 const filteredItems = computed(() => {
     return inventory.value.filter(item => {
     const matchesResponsible =
-      !selectedResponsible.value || item.user_id === selectedResponsible.value;
+      !selectedPerson.value || item.user_id === selectedPerson.value;
     const matchesFactual =
       !selectedFactualLocation.value || item.factual_location_id === selectedFactualLocation.value;
     const matchesJuridical =
@@ -116,7 +116,7 @@ onMounted(() => {
     <div class="mb-4">
       <input type="text" v-model="searchQuery" placeholder="Meklēt" class="border p-2 w-full" />
       <label for="role-filter" class="mr-2">Filtrēt pēc personām:</label>
-      <select v-model="selectedResponsible" class="border p-2">
+      <select v-model="selectedPerson" class="border p-2">
         <option value="">Visas personas</option>
         <option v-for="user in responsiblePersons" :key="user.user_id" :value="user.user_id">
           {{ user.username || user.email }}
