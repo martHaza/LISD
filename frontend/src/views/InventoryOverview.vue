@@ -81,7 +81,7 @@ const saveNewItem = async () => {
 };
 
 const filteredItems = computed(() => {
-    return item.value.filter(item => {
+    return items.value.filter(item => {
     const matchesResponsible =
       !selectedPerson.value || item.user_id === selectedPerson.value;
     const matchesFactual =
