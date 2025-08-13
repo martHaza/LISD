@@ -4,6 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import mkcert from 'vite-plugin-mkcert'
 
 export default defineConfig({
+  base: '/lisd/',
   server: {
     https: true
   },
@@ -17,7 +18,8 @@ export default defineConfig({
         name: "LISD",
         short_name: "LISD",
         description: "Laboratory Inventory System Development",
-        start_url: "/",
+        start_url: "/lisd/",
+        scope: "/lisd/",
         display: "standalone",
         background_color: "#ffffff",
         theme_color: "#42b883",
