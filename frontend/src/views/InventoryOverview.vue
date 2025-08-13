@@ -48,15 +48,15 @@ const fetchUsers = async () => {
 const fetchLocations = async () => {
   try {
     const jur = await api.get('/juridical-location');
-    jurLocation.value = jurResponse.data;
+    jurLocation.value = jur.data;
     console.log('Juridical locations loaded:', jurLocation.value);
 
     const fac = await api.get('/factual-location');
-    facLocation.value = facResponse.data;
+    facLocation.value = fac.data;
     console.log('Factual locations loaded:', facLocation.value);
 
     const temp = await api.get('/temporary-location');
-    tempLocation.value = tempResponse.data;
+    tempLocation.value = temp.data;
     console.log('Temporary locations loaded:', tempLocation.value);
   } catch (error) {
     console.error('Error fetching locations', error);
