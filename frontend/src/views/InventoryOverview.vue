@@ -17,12 +17,11 @@ const selectedPerson = ref('');
 
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
+const selectedItem = ref(null);
 const authStore = useAuthStore();
 
 const newItem = ref({ title: '', item_number: '', item_code: '', description: '', exploitation_date: '', juridical_location_id: '',
   factual_location_id: '', temp_location_id: '', user_type: 'Local' });
-
-const selectedItem = ref(null);
 
 const fetchItems = async () => {
   try {
@@ -30,6 +29,8 @@ const fetchItems = async () => {
     items.value = response.data;
   } catch (error) {
     console.error('Error fetching items', error);
+
+    items.value = [];
   }
 };
 
@@ -39,21 +40,30 @@ const fetchUsers = async () => {
     responsiblePersons.value = response.data;
   } catch (error) {
     console.error('Error fetching users', error);
+
+    responsiblePersons.value = [];
   }
 }
 
 const fetchLocations = async () => {
   try {
     const jur = await api.get('/juridical-location');
-    jurLocation.value = jur.data;
+    jurLocation.value = jurResponse.data;
+    console.log('Juridical locations loaded:', jurLocation.value);
 
     const fac = await api.get('/factual-location');
-    facLocation.value = fac.data;
+    facLocation.value = facResponse.data;
+    console.log('Factual locations loaded:', facLocation.value);
 
     const temp = await api.get('/temporary-location');
-    tempLocation.value = temp.data;
+    tempLocation.value = tempResponse.data;
+    console.log('Temporary locations loaded:', tempLocation.value);
   } catch (error) {
     console.error('Error fetching locations', error);
+
+    jurLocation.value = [];
+    facLocation.value = [];
+    tempLocation.value = [];
   }
 }
 
