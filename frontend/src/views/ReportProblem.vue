@@ -68,7 +68,7 @@ onMounted(fetchItems);
     <label>Izvēlieties inventāra vienības:</label>
 
     <div class="items-list">
-        <div v-for="item in items" :key="item.id" class="item" :class="{ selected: selectedItems.includes(items.item_id) }"
+        <div v-for="item in items" :key="items.item_id" class="item" :class="{ selected: selectedItems.includes(items.item_id) }"
             @click="toggleItemSelection(items.item_id)">
             {{ items.item_title }}
         </div>
