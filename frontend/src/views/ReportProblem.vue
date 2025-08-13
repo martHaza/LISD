@@ -62,5 +62,27 @@ onMounted(fetchItems);
 </script>
 
 <template>
-    
+    <div class="request-container">
+    <h1>Pieteikt bojātu inventāru</h1>
+
+    <label>Izvēlieties inventāra vienības:</label>
+
+    <div class="items-list">
+        <div v-for="item in items" :key="item.id" class="item" :class="{ selected: selectedItems.includes(item.id) }"
+            @click="toggleItemSelection(item.id)">
+            {{ item.name }}
+        </div>
+    </div>
+
+    <label>Bojājuma nosaukums:</label>
+
+    <input type="text" v-model="title" placeholder="Bojājuma nosaukums" required/>
+
+    <label>Apraksts:</label>
+
+    <textarea v-model="description" placeholder="Detalizēts bojājuma apraksts" required></textarea>
+
+    <button @click="submitDamageReport">Pieteikt bojājumu</button>
+  </div>
 </template>
+
