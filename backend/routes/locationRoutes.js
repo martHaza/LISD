@@ -11,7 +11,7 @@ const {
 
 const { authenticateUser } = require("../middleware/authMiddleware");
 
-router.get("/factual-location", authenticateUser, async (req, res) => {
+router.get("/factual", authenticateUser, async (req, res) => {
     try {
         const locations = await getFactualLocations();
         res.json(locations);
@@ -21,7 +21,7 @@ router.get("/factual-location", authenticateUser, async (req, res) => {
     }
 });
 
-router.get("/juridical-location", authenticateUser, async (req, res) => {
+router.get("/juridical", authenticateUser, async (req, res) => {
     try {
         const locations = await getJuridicalLocations();
         res.json(locations);
@@ -31,7 +31,7 @@ router.get("/juridical-location", authenticateUser, async (req, res) => {
     }
 });
 
-router.get("/temporary-location", authenticateUser, async (req, res) => {
+router.get("/temporary", authenticateUser, async (req, res) => {
     try {
         const locations = await getTemporaryLocations();
         res.json(locations);
@@ -42,7 +42,7 @@ router.get("/temporary-location", authenticateUser, async (req, res) => {
 });
 
 // CREATE
-router.post("/location", authenticateUser, async (req, res) => {
+router.post("/locations", authenticateUser, async (req, res) => {
     try {
         const { room } = req.body;
         const newLocation = await createLocation({ room });
@@ -54,7 +54,7 @@ router.post("/location", authenticateUser, async (req, res) => {
 });
 
 // UPDATE
-router.put("/location/:id", authenticateUser, async (req, res) => {
+router.put("/locations/:id", authenticateUser, async (req, res) => {
     try {
         const { room } = req.body;
         await updateLocation(req.params.id, { room });
@@ -66,7 +66,7 @@ router.put("/location/:id", authenticateUser, async (req, res) => {
 });
 
 // DELETE
-router.delete("/location/:id", authenticateUser, async (req, res) => {
+router.delete("/locations/:id", authenticateUser, async (req, res) => {
     try {
         await deleteLocation(req.params.id);
         res.json({ message: "Location deleted successfully" });

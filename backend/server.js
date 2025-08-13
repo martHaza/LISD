@@ -38,7 +38,7 @@ app.use("/api", userRolesRoutes);
 app.use("/api", rolesRoutes);
 app.use("/api", localUserRoutes);
 app.use("/api", itemRoutes);
-app.use("/api", locationRoutes);
+app.use("/api/locations", locationRoutes);
 
 app.use('/uploads', express.static('uploads'));
 app.use("/api", uploadRoutes);
