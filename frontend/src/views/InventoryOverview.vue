@@ -171,7 +171,7 @@ onMounted(() => {
         <label class="block mb-1 font-semibold">Atbildīgā persona:</label>
         <select v-model="newItem.user_id" class="border p-2 w-full mb-2"required>
           <option value="" disabled>Izvēlieties personu</option>
-          <option v-for="user in responsiblePersons":key="user.user_id":value="user.user_id">
+          <option v-for="user in responsiblePersons" :key="user.user_id" :value="user.user_id">
             {{ user.username || user.email }}
           </option>
         </select>
@@ -179,7 +179,7 @@ onMounted(() => {
         <label class="block mb-1 font-semibold">Faktiskā atrašanās vieta:</label>
         <select v-model="newItem.factual_location_id" class="border p-2 w-full mb-2">
           <option value="">Nav</option>
-          <option v-for="loc in factualLocations":key="loc.id":value="loc.id">
+          <option v-for="loc in factualLocations" :key="loc.id" :value="loc.id">
             {{ loc.name }}
           </option>
         </select>
@@ -187,7 +187,7 @@ onMounted(() => {
         <label class="block mb-1 font-semibold">Juridiskā atrašanās vieta:</label>
         <select v-model="newItem.juridical_location_id" class="border p-2 w-full mb-2">
           <option value="">Nav</option>
-          <option v-for="loc in juridicalLocations":key="loc.id":value="loc.id">
+          <option v-for="loc in juridicalLocations" :key="loc.id" :value="loc.id">
             {{ loc.name }}
           </option>
         </select>
@@ -195,7 +195,7 @@ onMounted(() => {
         <label class="block mb-1 font-semibold">Pagaidu atrašanās vieta:</label>
         <select v-model="newItem.temp_location_id" class="border p-2 w-full mb-4">
           <option value="">Nav</option>
-          <option v-for="loc in tempLocations":key="loc.id":value="loc.id">
+          <option v-for="loc in tempLocations" :key="loc.id" :value="loc.id">
             {{ loc.name }}
           </option>
         </select>
@@ -238,19 +238,22 @@ onMounted(() => {
         <label class="block mb-2 font-semibold">Faktiskā atrašanās vieta</label>
         <select v-model="editItem.factual_location_id" class="border p-2 w-full mb-4">
           <option value="">Izvēlēties atrašanās vietu</option>
-          <option v-for="loc in factualLocations" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
+          <option v-for="loc in factualLocations" :key="loc.id" :value="loc.id">
+            {{ loc.name }}</option>
         </select>
 
         <label class="block mb-2 font-semibold">Juridiskā atrašanās vieta</label>
         <select v-model="editItem.juridical_location_id" class="border p-2 w-full mb-4">
           <option value="">Izvēlēties atrašanās vietu</option>
-          <option v-for="loc in juridicalLocations" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
+          <option v-for="loc in juridicalLocations" :key="loc.id" :value="loc.id">
+            {{ loc.name }}</option>
         </select>
 
         <label class="block mb-2 font-semibold">Pagaidu atrašanās vieta</label>
         <select v-model="editItem.temp_location_id" class="border p-2 w-full mb-4">
           <option value="">Izvēlēties atrašanās vietu</option>
-          <option v-for="loc in tempLocations" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
+          <option v-for="loc in tempLocations" :key="loc.id" :value="loc.id">
+            {{ loc.name }}</option>
         </select>
 
         <div class="flex justify-end gap-2 mt-4">
