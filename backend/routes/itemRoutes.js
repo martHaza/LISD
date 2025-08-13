@@ -2,6 +2,9 @@ const express = require("express");
 const {
   getItemByItemNumber
 } = require("../services/itemService");
+const {
+  getAllItems
+} = require("../services/itemService");
 
 const router = express.Router();
 const { authenticateUser, authorizeRole } = require("../middleware/authMiddleware");
