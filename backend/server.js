@@ -13,7 +13,7 @@ const rolesRoutes = require("./routes/rolesRoutes");
 const localUserRoutes = require("./routes/localUserRoutes");
 const itemRoutes = require("./routes/itemRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
-
+const locationRoutes = require("./routes/locationRoutes");
 
 const app = express();
 app.use(cors());
@@ -38,6 +38,7 @@ app.use("/api", userRolesRoutes);
 app.use("/api", rolesRoutes);
 app.use("/api", localUserRoutes);
 app.use("/api", itemRoutes);
+app.use("/api", locationRoutes);
 
 app.use('/uploads', express.static('uploads'));
 app.use("/api", uploadRoutes);
