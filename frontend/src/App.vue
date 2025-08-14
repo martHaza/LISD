@@ -1,11 +1,12 @@
 <template>
   <div>
     <nav  v-if="authStore.token">
-      <router-link to="/">Sākums</router-link> |
+      <router-link to="/">Sākums</router-link> | 
       <router-link to="/qrtest">Skenēšana</router-link> |
       <router-link to="/image-upload">Attēla augšupielāde</router-link> |
       <router-link to="/gallery">Galerija</router-link> |
       <router-link v-if="authStore.currentRole=='administrators'" to="/user_overview">Lietotāju pārvaldība </router-link> |
+      <router-link v-if="canReportProblem" to="/report_problem">Pieteikt bojātu inventāru</router-link> |
       <button v-if="deferredPrompt" @click="installPWA">Instalēt PWA</button>
       <button v-if="authStore.token" @click="logoutAndRedirect">Logout</button>
       <select v-if="authStore.roles && authStore.roles.length > 1" v-model="authStore.currentRole">
@@ -19,6 +20,7 @@
 <script>
 import { useAuthStore } from "./stores/auth";
 import { useRouter } from "vue-router"; 
+import { computed } from "vue";
 
 export default {
   setup() {
@@ -30,7 +32,12 @@ export default {
       router.push("/login"); 
     };
 
-  return { authStore, logoutAndRedirect };
+    const canReportProblem = computed(() => {
+      const allowedRoles = ["lietotājs", "laborants", "materiāli atbildīgā persona"];
+      return authStore.currentRole && allowedRoles.includes(authStore.currentRole);
+    });
+
+  return { authStore, logoutAndRedirect, canReportProblem };
   },
   data() {
     return { deferredPrompt: null };
