@@ -1,100 +1,100 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useAuthStore } from "../store/auth";
+import { useAuthStore } from "../stores/auth";
 import { jwtDecode } from "jwt-decode";
 import api from "../services/api";
 
 const authStore = useAuthStore();
-const items = ref([]);
-const selectedItems = ref([]);
+const itemNumber = ref("");    
+const itemDetails = ref(null);  
 const title = ref("");
 const description = ref("");
 
-const fetchItems = async () => {
-    try {
-        const response = await api.get(`/items`);
-        items.value = response.data;
-    } catch (error) {
-        console.error("Error fetching items", error);
-    }
-};
+const fetchItemByNumber = async () => {
+  if (!itemNumber.value) return;
 
-const toggleItemSelection = (itemId) => {
-    const index = selectedItems.value.indexOf(itemId);
-    if (index === -1) {
-        selectedItems.value.push(itemId);
-    } else {
-        selectedItems.value.splice(index, 1);
-    }
+  try {
+    const response = await api.get(`/items/item_number/${itemNumber.value}`);
+    itemDetails.value = response.data.item;
+  } catch (error) {
+    console.error("Failed to fetch item:", error);
+    itemDetails.value = null;
+  }
 };
 
 const submitDamageReport = async () => {
-    if (!title.value || !description.value || selectedItems.value.length === 0) {
-        alert("Lūdzu aizpildiet visus laukus un izvēlieties vismaz vienu inventāra vienību.");
-        return;
-    }
-    const userId = jwtDecode(authStore.token)?.user_id;
-        if (!userId) {
-            alert("Nevarēja iegūt lietotāja ID. Lūdzu, ielogojieties vēlreiz!");
-            return;
-        }
+  if (!itemDetails.value) {
+    alert("Izvēlaties inventāru.");
+    return;
+  }
+  if (!title.value || !description.value) {
+    alert("Lūdzu aizpildiet visus laukus.");
+    return;
+  }
 
-    try {
-        await api.post(`/damaged-item`, {
-            user_id: userId,
-            title: title.value,
-            description: description.value,
-            status: "new",
-            inventory_ids: selectedItems.value,
-        });
+  const userId = jwtDecode(authStore.token)?.user_id;
+  if (!userId) {
+    alert("Nevarēja iegūt lietotāja ID. Lūdzu, ielogojieties vēlreiz!");
+    return;
+  }
 
-        alert("Bojājums veiksmīgi pieteikts!");
-        selectedItems.value = [];
-        title.value = "";
-        description.value = "";
-    } catch (error) {
-        console.error("Neizdevās pieteikt bojājumu:", error);
-        alert("Radās kļūda pieteikuma saglabāšanā!");
-    }
-}
+  try {
+    await api.post(`/issues`, {
+      user_id: userId,
+      item_number: itemDetails.value.number,
+      title: title.value,
+      description: description.value,
+      status: "open"
+    });
 
-onMounted(fetchItems);
+    alert("Problēma veiksmīgi pieteikta!");
+    itemNumber.value = "";
+    itemDetails.value = null;
+    title.value = "";
+    description.value = "";
+  } catch (error) {
+    console.error("Error submitting problem:", error);
+    alert("Neizdevās pieteikt bojājumu!");
+  }
+};
+
+onMounted(fetchItemByNumber);
 </script>
 
 <template>
     <div class="request-container">
     <h1>Pieteikt bojātu inventāru</h1>
 
-    <label>Izvēlieties inventāra vienības:</label>
+    <label>Ievadiet inventāra numuru:</label>
+     <input type="text" v-model="itemNumber" placeholder="Inventāra numurs" @blur="fetchItemByNumber" required/>
 
-    <div class="items-list">
-        <div v-for="item in items" :key="items.item_id" class="item" :class="{ selected: selectedItems.includes(items.item_id) }"
-            @click="toggleItemSelection(items.item_id)">
-            {{ items.item_title }}
-        </div>
-    </div>
+     <div v-if="itemDetails" class="item-details">
+      <h3>{{ itemDetails.title }} ({{ itemDetails.number }})</h3>
+      <p>Kods: {{ itemDetails.code }}</p>
+      <p>Apraksts: {{ itemDetails.description }}</p>
+     </div>
 
     <label>Bojājuma nosaukums:</label>
-
     <input type="text" v-model="title" placeholder="Bojājuma nosaukums" required/>
 
     <label>Apraksts:</label>
-
     <textarea v-model="description" placeholder="Detalizēts bojājuma apraksts" required></textarea>
 
-    <button @click="submitDamageReport">Pieteikt bojājumu</button>
+    <button @click="submitDamageReport" :disabled="!itemDetails">Pieteikt bojājumu</button>
   </div>
 </template>
 
 <style scoped>
 
 .request-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background: #f9f9f9;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
@@ -108,34 +108,6 @@ label {
   margin-top: 16px;
   font-weight: 600;
   color: #333;
-}
-
-.items-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 12px;
-  margin: 12px 0;
-}
-
-.item {
-  padding: 12px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  background: #f9f9f9;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  user-select: none;
-}
-
-.item:hover {
-  background-color: #e0e0e0;
-}
-
-.item.selected {
-  background-color: #4caf50;
-  color: white;
-  border-color: #388e3c;
 }
 
 input,
@@ -169,6 +141,14 @@ button {
 
 button:hover {
   background: #388e3c;
+}
+
+.item-details {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
 }
 </style>
 
