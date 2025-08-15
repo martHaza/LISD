@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useAuthStore } from "../store/auth";
+import { useAuthStore } from "../stores/auth";
 import { jwtDecode } from "jwt-decode";
 import api from "../services/api";
 
