@@ -1,6 +1,13 @@
 import express from "express";
 const router = express.Router();
-import { createIssue, getIssues, getIssueById, updateIssueStatus, deleteIssue } from "../services/issueService";
+const {
+    createIssue,
+    getIssues,
+    getIssueById,
+    updateIssueStatus,
+    getIssueComments,
+    addIssueComment
+} = require("../services/issueService");
 
 const { authenticateUser, authorizeRole } = require("../middleware/authMiddleware");
 
@@ -20,8 +27,8 @@ router.get("/issues/:id", authenticateUser, async (req, res) => {
         if (!issue) {
             return res.status(404).json({ message: "Issue not found" });
         }
-        const items = await getItemsForIssue(issues.issue_id);
-        res.json({ issue, items });
+        const comments = await getIssueComments(issue.issue_id);
+        res.json({ issue, comments });
     } catch (error) {
         console.error("Error fetching issue:", error);
         res.status(500).json({ message: "Error fetching issue" });
@@ -30,11 +37,8 @@ router.get("/issues/:id", authenticateUser, async (req, res) => {
 
 router.post("/issues", authenticateUser, authorizeRole(["lietotājs", "laborants", "materiāli atbildīgā persona"]), async (req, res) => {
     try {
-        const { user_id, title, description, status, item_ids } = req.body;
-
-        const { issue_id } = await createIssue({ user_id, title, description, status });
-        await createIssueItems(issue_id, item_ids);
-
+        const { item_id, reported_by, status, description } = req.body;
+        const { issue_id } = await createIssue({ item_id, reported_by, status, description });
         res.status(201).json({ issue_id });
     } catch (error) {
         console.error("Error creating issue:", error);
@@ -59,38 +63,26 @@ router.put("/issues/:id/status", authenticateUser, authorizeRole(["laborants"]),
     }
 });
 
-router.put("/issues/:id/item/:itemId", authenticateUser, authorizeRole(["laborants"]), async (req, res) => {
-    const { status } = req.body;
-
+router.get("/issues/:id/comments", authenticateUser, async (req, res) => {
     try {
-        await updateIssueItemStatus(req.params.id, req.params.itemId, status);
-        res.json({ message: "Item issue status updated" });
+        const comments = await getIssueComments(req.params.id);
+        res.json({ comments });
     } catch (error) {
-        console.error("Error updating item issue status:", error);
-        res.status(500).json({ message: "Error updating item issue status" });
+        console.error("Failed to fetch comments:", error);
+        res.status(500).json({ message: "Failed to fetch comments" });
     }
 });
 
-// router.get("/issues/:id/comments", authenticateUser, async (req, res) => {
-//     try {
-//         const comments = await getIssueComments(req.params.id);
-//         res.json({ comments });
-//     } catch (err) {
-//         console.error("Failed to fetch comments:", err);
-//         res.status(500).json({ message: "Failed to fetch comments" });
-//     }
-// });
-
-// router.post("/issues/:id/comments", authenticateUser, async (req, res) => {
-//     try {
-//         const { user_id, comment } = req.body;
-//         const issue_id = req.params.id;
-//         await addIssueComment(issue_id, user_id, comment);
-//         res.status(201).json({ message: "Comment added" });
-//     } catch (err) {
-//         console.error("Failed to add comment:", err);
-//         res.status(500).json({ message: "Failed to add comment" });
-//     }
-// });
+router.post("/issues/:id/comments", authenticateUser, authorizeRole(["laborants", "materiāli atbildīgā persona"]), async (req, res) => {
+    try {
+        const { user_id, comment } = req.body;
+        const issue_id = req.params.id;
+        await addIssueComment(issue_id, user_id, comment);
+        res.status(201).json({ message: "Comment added" });
+    } catch (err) {
+        console.error("Failed to add comment:", err);
+        res.status(500).json({ message: "Failed to add comment" });
+    }
+});
 
 module.exports = router;
