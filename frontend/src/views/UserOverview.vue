@@ -258,13 +258,13 @@ onMounted(() => {
       <p><strong>Lietotājvārds:</strong> {{ selectedUser?.username || '-' }}</p>
       <p><strong>Lietotāja tips:</strong> {{ selectedUser?.user_type }}</p>
       <input v-model="selectedUser.phone_number" placeholder="Telefona numurs" class="border p-2 w-full mb-2" />
-      <td class="border p-2">
+      <div class="border p-2">
         <label v-for="role in roles" :key="role.role_id" class="flex items-center gap-1">
           <input type="checkbox" class="toggle-switch" :checked="selectedUserRoles.includes(role.name)"
             @change="toggleRole(role.name)" />
           {{ role.name }}
         </label>
-      </td>
+      </div>
       <label class="flex items-center gap-2">
         <input type="checkbox" v-model="selectedUser.is_active" /> Aktīvs
       </label>
