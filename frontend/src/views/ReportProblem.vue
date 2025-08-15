@@ -40,8 +40,9 @@ const submitDamageReport = async () => {
 
   try {
     await api.post(`/issues`, {
-      item_id: itemDetails.calue.id,
+      item_id: itemDetails.value.id,
       reported_by: userId,
+      title: title.value,
       description: description.value,
       status: "open"
     });
