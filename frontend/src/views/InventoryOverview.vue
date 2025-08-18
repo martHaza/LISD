@@ -67,16 +67,6 @@ const fetchLocations = async () => {
   }
 }
 
-const saveEditItem = async () => {
-  try {
-    await api.put(`/items/${selectedItem.value.item_id}`, selectedItem.value);
-    closeEditModal();
-    fetchItems();
-  } catch (error) {
-    console.error('Error updating item:', error.response?.data || error.message);
-  }
-};
-
 const openCreateModal = () => {
   showCreateModal.value = true;
 };
