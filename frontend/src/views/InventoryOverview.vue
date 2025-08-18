@@ -188,6 +188,37 @@ onMounted(() => {
       </tbody>
     </table>
 
+    <!-- FILTER SECTION -->
+    <div class="mb-4 p-4 border rounded bg-gray-50">
+      <input v-model="searchQuery" placeholder="Meklēt nosaukumu, numuru vai kodu" class="border p-2 mb-2 w-full"/>
+
+      <label>Atbildīgā persona:</label>
+      <select v-model="selectedPerson" class="border p-2 w-full mb-2">
+        <option value="">Visi</option>
+        <option v-for="user in responsiblePersons" :key="user.user_id" :value="user.user_id">
+          {{ user.username || user.email }}
+        </option>
+      </select>
+
+      <label>Faktiskā atrašanās vieta:</label>
+      <select v-model="selectedFactualLocation" class="border p-2 w-full mb-2">
+        <option value="">Visas</option>
+        <option v-for="loc in facLocation" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
+      </select>
+
+      <label>Juridiskā atrašanās vieta:</label>
+      <select v-model="selectedJuridicalLocation" class="border p-2 w-full mb-2">
+        <option value="">Visas</option>
+        <option v-for="loc in jurLocation" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
+      </select>
+
+      <label>Pagaidu atrašanās vieta:</label>
+      <select v-model="selectedTempLocation" class="border p-2 w-full">
+        <option value="">Visas</option>
+        <option v-for="loc in tempLocation" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
+      </select>
+    </div>
+
      <!-- Create Inventory Modal -->
     <div v-if="showCreateModal" class="modal-container">
       <div class="modal-content">
