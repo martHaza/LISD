@@ -189,7 +189,7 @@ onMounted(() => {
     </table>
 
     <!-- FILTER SECTION -->
-    <div class="mb-4 p-4 border rounded bg-gray-50">
+    <!-- <div class="mb-4 p-4 border rounded bg-gray-50">
       <input v-model="searchQuery" placeholder="Meklēt nosaukumu, numuru vai kodu" class="border p-2 mb-2 w-full"/>
 
       <label>Atbildīgā persona:</label>
@@ -217,7 +217,7 @@ onMounted(() => {
         <option value="">Visas</option>
         <option v-for="loc in tempLocation" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
       </select>
-    </div>
+    </div> -->
 
      <!-- Create Inventory Modal -->
     <div v-if="showCreateModal" class="modal-container">
