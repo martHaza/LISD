@@ -47,15 +47,15 @@ const fetchUsers = async () => {
 
 const fetchLocations = async () => {
   try {
-    const jur = await api.get('/juridical-location');
+    const jur = await api.get('/juridical');
     jurLocation.value = jur.data;
     console.log('Juridical locations loaded:', jurLocation.value);
 
-    const fac = await api.get('/factual-location');
+    const fac = await api.get('/factual');
     facLocation.value = fac.data;
     console.log('Factual locations loaded:', facLocation.value);
 
-    const temp = await api.get('/temporary-location');
+    const temp = await api.get('/temporary');
     tempLocation.value = temp.data;
     console.log('Temporary locations loaded:', tempLocation.value);
   } catch (error) {
@@ -66,6 +66,16 @@ const fetchLocations = async () => {
     tempLocation.value = [];
   }
 }
+
+const saveEditItem = async () => {
+  try {
+    await api.put(`/items/${selectedItem.value.item_id}`, selectedItem.value);
+    closeEditModal();
+    fetchItems();
+  } catch (error) {
+    console.error('Error updating item:', error.response?.data || error.message);
+  }
+};
 
 const openCreateModal = () => {
   showCreateModal.value = true;
@@ -78,7 +88,7 @@ const closeCreateModal = () => {
 };
 
 const openEditModal = (item) => {
-  selectedUser.value = { ...item };
+  selectedItem.value = { ...item };
   showEditModal.value = true;
 }
 
@@ -95,6 +105,21 @@ const saveNewItem = async () => {
     console.error('Error creating inventory item:', error);
   }
 };
+
+const saveEditItem = async () => {
+  try {
+    await api.put(`/items/${selectedItem.value.item_id}`, selectedItem.value);
+    await fetchItems();
+    closeEditModal();
+  } catch (error) {
+    console.error('Error updating item:', error.response?.data || error.message);
+  }
+};
+
+const findUserById = (id) => responsiblePersons.value.find(u => u.user_id === id);
+const findFactualLocationById = (id) => facLocation.value.find(l => l.id === id);
+const findJuridicalLocationById = (id) => jurLocation.value.find(l => l.id === id);
+const findTempLocationById = (id) => tempLocation.value.find(l => l.id === id);
 
 const filteredItems = computed(() => {
     return items.value.filter(item => {
@@ -229,22 +254,22 @@ onMounted(() => {
         <h2 class="text-lg font-bold mb-4">Rediģēt inventāru</h2>
 
         <label class="block mb-2 font-semibold">Nosaukums</label>
-        <input v-model="editItem.title" placeholder="Nosaukums" class="border p-2 w-full mb-4" />
+        <input v-model="selectedItem.title" placeholder="Nosaukums" class="border p-2 w-full mb-4" />
 
         <label class="block mb-2 font-semibold">Numurs</label>
-        <input v-model="editItem.item_number" placeholder="Numurs" class="border p-2 w-full mb-4" />
+        <input v-model="selectedItem.item_number" placeholder="Numurs" class="border p-2 w-full mb-4" />
 
         <label class="block mb-2 font-semibold">Kods</label>
-        <input v-model="editItem.item_code" placeholder="Kods" class="border p-2 w-full mb-4" />
+        <input v-model="selectedItem.item_code" placeholder="Kods" class="border p-2 w-full mb-4" />
 
         <label class="block mb-2 font-semibold">Apraksts</label>
-        <textarea v-model="editItem.description" placeholder="Apraksts" class="border p-2 w-full mb-4"></textarea>
+        <textarea v-model="selectedItem.description" placeholder="Apraksts" class="border p-2 w-full mb-4"></textarea>
 
         <label class="block mb-2 font-semibold">Ekspluatācijas datums</label>
-        <input v-model="editItem.exploitation_date" type="date" class="border p-2 w-full mb-4" />
+        <input v-model="selectedItem.exploitation_date" type="date" class="border p-2 w-full mb-4" />
 
         <label class="block mb-2 font-semibold">Atbildīgais</label>
-        <select v-model="editItem.user_id" class="border p-2 w-full mb-4">
+        <select v-model="selectedItem.user_id" class="border p-2 w-full mb-4">
           <option value="">Izvēlēties personu</option>
           <option v-for="user in responsiblePersons" :key="user.user_id" :value="user.user_id">
             {{ user.username || user.email }}
@@ -252,21 +277,21 @@ onMounted(() => {
         </select>
 
         <label class="block mb-2 font-semibold">Faktiskā atrašanās vieta</label>
-        <select v-model="editItem.factual_location_id" class="border p-2 w-full mb-4">
+        <select v-model="selectedItem.factual_location_id" class="border p-2 w-full mb-4">
           <option value="">Izvēlēties atrašanās vietu</option>
           <option v-for="loc in facLocation" :key="loc.id" :value="loc.id">
             {{ loc.name }}</option>
         </select>
 
         <label class="block mb-2 font-semibold">Juridiskā atrašanās vieta</label>
-        <select v-model="editItem.juridical_location_id" class="border p-2 w-full mb-4">
+        <select v-model="selectedItem.juridical_location_id" class="border p-2 w-full mb-4">
           <option value="">Izvēlēties atrašanās vietu</option>
           <option v-for="loc in jurLocation" :key="loc.id" :value="loc.id">
             {{ loc.name }}</option>
         </select>
 
         <label class="block mb-2 font-semibold">Pagaidu atrašanās vieta</label>
-        <select v-model="editItem.temp_location_id" class="border p-2 w-full mb-4">
+        <select v-model="selectedItem.temp_location_id" class="border p-2 w-full mb-4">
           <option value="">Izvēlēties atrašanās vietu</option>
           <option v-for="loc in tempLocation" :key="loc.id" :value="loc.id">
             {{ loc.name }}</option>
