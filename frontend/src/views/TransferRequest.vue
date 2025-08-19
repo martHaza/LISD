@@ -132,7 +132,7 @@ onMounted(fetchItems);
       <label class="font-semibold">Izvēlies inventāra vienību:</label>
       <select v-model="selectedItem" class="border p-2">
         <option value="" disabled>Izvēlies vienību...</option>
-        <option v-for="item in items" :key="item.id" :value="item.id">
+        <option v-for="item in items" :key="item_id" :value="item_id">
           {{ item.title }} (Faktiskā atrašanās vieta: {{ item.factual_location_name }})
         </option>
       </select>
