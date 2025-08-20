@@ -171,3 +171,112 @@ onMounted(fetchItems);
   </div>
 </template>
 
+<style scoped>
+html,
+body {
+  overflow: visible !important;
+}
+
+.bg-gray-200 {
+  background-color: #e0e0e0;
+}
+
+.request-container {
+  padding: 1rem;
+}
+
+.filter-container {
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+tr:hover {
+  background-color: #f0f0f0;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 5px 10px;
+  color: white;
+}
+
+button.bg-blue-500 {
+  background: #3b82f6;
+}
+
+button.bg-green-500 {
+  background: #4caf50;
+}
+
+button.bg-red-500 {
+  background: #ef4444;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.time-slots {
+  margin-top: 1rem;
+}
+
+.time-slot {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+</style>
