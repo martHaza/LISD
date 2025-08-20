@@ -79,3 +79,45 @@ const submitRequest = async () => {
 
 onMounted(fetchInventoryItems);
 </script>
+
+<template>
+  <div class="p-4">
+    <h1 class="text-xl font-bold mb-4">Inventāra pieprasījumi</h1>
+
+    <div class="mb-4 flex flex-col gap-2">
+      <label class="font-semibold">Izvēlieties inventāra vienību:</label>
+      <div class="inventory-list">
+        <div 
+          v-for="item in items" 
+          :key="item.item_id"
+          class="inventory-item border p-2 mb-2 cursor-pointer"
+          :class="{ selected: selectedItems.includes(item.item_id) }"
+          @click="toggleItemSelection(item.item_id)"
+        >
+          {{ item.title }} (Faktiskā atrašanās vieta: {{ item.factual_location_room }})
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="font-semibold block mb-1">Komentārs:</label>
+      <textarea v-model="requestInfo" rows="3" class="border p-2 w-full" placeholder="Papildu informācija"></textarea>
+    </div>
+
+    <div class="mb-4">
+      <h2 class="font-semibold mb-2">Laika posmi</h2>
+      <div v-for="(slot, index) in timeSlots" :key="index" class="flex gap-2 mb-2 items-center">
+        <input type="datetime-local" v-model="slot.fromTime" class="border p-2 w-1/2" />
+        <input type="datetime-local" v-model="slot.toTime" class="border p-2 w-1/2" />
+        <button @click="removeTimeSlot(index)" class="bg-red-500 text-white px-2 py-1 rounded">Dzēst</button>
+      </div>
+      <button @click="addTimeSlot" class="bg-green-500 text-white px-3 py-1 rounded">Pievienot laika posmu</button>
+    </div>
+
+    <div class="flex justify-end mt-4">
+      <button @click="submitRequest" class="bg-blue-500 text-white px-4 py-2 rounded">
+        Iesniegt pieprasījumu
+      </button>
+    </div>
+  </div>
+</template>
