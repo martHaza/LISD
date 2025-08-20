@@ -129,7 +129,7 @@ onMounted(fetchItems);
     </div>
 
     <div class="mb-4 flex flex-col gap-2">
-      <label class="font-semibold">Izvēlies inventāra vienību:</label>
+      <label class="font-semibold">Izvēlieties inventāru:</label>
       <select v-model="selectedItem" class="border p-2">
         <option value="" disabled>Izvēlies vienību...</option>
         <option v-for="item in items" :key="item_id" :value="item_id">
