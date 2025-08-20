@@ -11,6 +11,7 @@ import InventoryOverview from "./views/InventoryOverview.vue";
 import ReportProblem from "./views/ReportProblem.vue";
 import ProblemOverview from "./views/ProblemOverview.vue";
 import TransferRequest from "./views/TransferRequest.vue";
+import InventoryRequest from "./views/InventoryRequest.vue";
 
 const routes = [
     { path: "/", component: Home, meta: { requiresAuth: true }},
@@ -23,7 +24,8 @@ const routes = [
     { path: "/inventory_overview", component: InventoryOverview, meta: { requiresAuth: true }},
     { path: "/report_problem", component: ReportProblem, meta: { requiresAuth: true }},
     { path: "/problem_overview", component: ProblemOverview, meta: { requiresAuth: true }},
-    { path: "/transfer_request", component: TransferRequest, meta: { requiresAuth: true }}
+    { path: "/transfer_request", component: TransferRequest, meta: { requiresAuth: true }},
+    { path: "/inventory_request", component: InventoryRequest, meta: { requiresAuth: true }}
 ];
 
 const router = createRouter({
