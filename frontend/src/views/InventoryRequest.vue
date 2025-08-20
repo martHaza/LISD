@@ -85,7 +85,7 @@ onMounted(fetchInventoryItems);
     <h1 class="text-xl font-bold mb-4">Inventāra pieprasījumi</h1>
 
     <div class="mb-4 flex flex-col gap-2">
-      <label class="font-semibold">Izvēlieties inventāra vienību:</label>
+      <label class="font-semibold">Izvēlieties inventāru:</label>
       <div class="inventory-list">
         <div 
           v-for="item in items" 
