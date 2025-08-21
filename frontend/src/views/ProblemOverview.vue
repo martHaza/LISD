@@ -18,7 +18,7 @@ const userRole = jwtDecode(authStore.token)?.role;
 
 const fetchIssues = async () => {
     try {
-        const ressponse = await api.get("/issues");
+        const response = await api.get("/issues");
         issues.value = response.data.issues;
         filterIssues();
     } catch (error) {
