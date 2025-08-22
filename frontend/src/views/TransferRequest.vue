@@ -118,7 +118,7 @@ onMounted(fetchItems);
 
 <template>
   <div class="p-4">
-    <h1 class="text-xl font-bold mb-4">Inventāra pārvietošanas pieprasījumi</h1>
+    <h1 class="text-xl font-bold mb-4">Inventāra pārvietošanas pieprasījums</h1>
 
     <div class="mb-4 flex items-center gap-2">
       <label for="transferType" class="font-semibold">Pārvietošanas veids:</label>
