@@ -27,7 +27,8 @@ const routes = [
     { path: "/problem_overview", component: ProblemOverview, meta: { requiresAuth: true }},
     { path: "/transfer_request", component: TransferRequest, meta: { requiresAuth: true }},
     { path: "/inventory_request", component: InventoryRequest, meta: { requiresAuth: true }},
-    { path: "/inventory_request_overview", component: InventoryRequestOverview, meta: { requiresAuth:true }}
+    { path: "/inventory_request_overview", component: InventoryRequestOverview, meta: { requiresAuth: true }},
+    { path: "/transfer_request_overview", component: TransferRequest, meta: { requiresAuth: true }}
 ];
 
 const router = createRouter({
