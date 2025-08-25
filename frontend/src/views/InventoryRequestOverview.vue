@@ -24,7 +24,7 @@ const fetchRequests = async () => {
 
 const fetchReservations = async (requestId) => {
   try {
-    const response = await api.get(`/item-requests/request/${requestId}`);
+    const response = await api.get(`/item-requests/request/${itemRequestId}`);
     reservations.value = response.data;
   } catch (err) {
     console.error("Failed to fetch reservations:", err);
@@ -34,7 +34,7 @@ const fetchReservations = async (requestId) => {
 const openRequestModal = (request) => {
   selectedRequest.value =  request;
   isModalOpen.value = true;
-  fetchReservations(request.request_id);
+  fetchReservations(request.item_request_id);
 };
 
 const closeRequestModal = () => {
