@@ -1,6 +1,7 @@
 import express from "express";
 import { authenticateUser } from "../middleware/authMiddleware";
 import {
+  getItems,
   createItemRequest,
   getItemRequests,
   getItemRequestById,
@@ -9,6 +10,16 @@ import {
 } from "../services/inventoryRequestService";
 
 const router = express.Router();
+
+router.get('/items', authenticateUser, async (req, res) => {
+  try {
+    const items = await getItems();
+    res.json({ items });
+  } catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ error: 'Failed to fetch items' });
+  }
+});
 
 router.get("/item-requests", authenticateUser, async (req, res) => {
   try {
