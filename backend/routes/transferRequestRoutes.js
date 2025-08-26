@@ -1,4 +1,5 @@
 import express from "express";
+import { authenticateUser } from "../middleware/authMiddleware";
 const {
   createTransfer,
   getTransfers,
