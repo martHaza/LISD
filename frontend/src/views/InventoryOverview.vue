@@ -153,6 +153,31 @@ onMounted(() => {
           {{ user.username || user.email }}
           </option>
       </select>
+
+      <label for="factual-filter" class="ml-2">Faktiskā:</label>
+      <select v-model="selectedFactualLocation" class="border p-2">
+        <option value="">Visas</option>
+        <option v-for="loc in facLocation" :key="loc.location_id" :value="loc.location_id">
+          {{ loc.room }}
+          </option>
+      </select>
+
+      <label for="juridical-filter" class="ml-2">Juridiskā:</label>
+      <select v-model="selectedJuridicalLocation" class="border p-2">
+        <option value="">Visas</option>
+        <option v-for="loc in jurLocation" :key="loc.location_id" :value="loc.location_id">
+          {{ loc.room }}
+          </option>
+      </select>
+
+      <label for="temp-filter" class="ml-2">Pagaidu:</label>
+      <select v-model="selectedTempLocation" class="border p-2">
+        <option value="">Visas</option>
+        <option v-for="loc in tempLocation" :key="loc.location_id" :value="loc.location_id">
+          {{ loc.room }}
+          </option>
+      </select>
+
       <button @click="openCreateModal" class="bg-green-500 text-white px-3 py-1 rounded">Pievienot inventāru</button>
     </div>
 
@@ -178,46 +203,15 @@ onMounted(() => {
           <td class="border p-2">{{ item.description }}</td>
           <td class="border p-2">{{ item.exploitation_date }}</td>
           <td class="border p-2">{{ findUserById(item.user_id)?.username || findUserById(item.user_id)?.email || '-' }}</td>
-          <td class="border p-2">{{ findFactualLocationById(item.factual_location_id)?.name || '-' }}</td>
-          <td class="border p-2">{{ findJuridicalLocationById(item.juridical_location_id)?.name || '-' }}</td>
-          <td class="border p-2">{{ findTempLocationById(item.temp_location_id)?.name || '-' }}</td>
+          <td class="border p-2">{{ findFactualLocationById(item.factual_location_id)?.room || '-' }}</td>
+          <td class="border p-2">{{ findJuridicalLocationById(item.juridical_location_id)?.room || '-' }}</td>
+          <td class="border p-2">{{ findTempLocationById(item.temp_location_id)?.room || '-' }}</td>
            <td class="border p-2">
             <button @click="openEditModal(item)" class="bg-blue-500 text-white px-3 py-1 rounded">Rediģēt</button>
           </td>
         </tr>
       </tbody>
     </table>
-
-    <!-- FILTER SECTION -->
-    <!-- <div class="mb-4 p-4 border rounded bg-gray-50">
-      <input v-model="searchQuery" placeholder="Meklēt nosaukumu, numuru vai kodu" class="border p-2 mb-2 w-full"/>
-
-      <label>Atbildīgā persona:</label>
-      <select v-model="selectedPerson" class="border p-2 w-full mb-2">
-        <option value="">Visi</option>
-        <option v-for="user in responsiblePersons" :key="user.user_id" :value="user.user_id">
-          {{ user.username || user.email }}
-        </option>
-      </select>
-
-      <label>Faktiskā atrašanās vieta:</label>
-      <select v-model="selectedFactualLocation" class="border p-2 w-full mb-2">
-        <option value="">Visas</option>
-        <option v-for="loc in facLocation" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
-      </select>
-
-      <label>Juridiskā atrašanās vieta:</label>
-      <select v-model="selectedJuridicalLocation" class="border p-2 w-full mb-2">
-        <option value="">Visas</option>
-        <option v-for="loc in jurLocation" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
-      </select>
-
-      <label>Pagaidu atrašanās vieta:</label>
-      <select v-model="selectedTempLocation" class="border p-2 w-full">
-        <option value="">Visas</option>
-        <option v-for="loc in tempLocation" :key="loc.id" :value="loc.id">{{ loc.name }}</option>
-      </select>
-    </div> -->
 
      <!-- Create Inventory Modal -->
     <div v-if="showCreateModal" class="modal-container">
@@ -241,7 +235,7 @@ onMounted(() => {
         <label class="block mb-1 font-semibold">Faktiskā atrašanās vieta:</label>
         <select v-model="newItem.factual_location_id" class="border p-2 w-full mb-2">
           <option value="">Nav</option>
-          <option v-for="loc in facLocation" :key="loc.id" :value="loc.id">
+          <option v-for="loc in facLocation" :key="loc.location_id" :value="loc.location_id">
             {{ loc.name }}
           </option>
         </select>
@@ -249,7 +243,7 @@ onMounted(() => {
         <label class="block mb-1 font-semibold">Juridiskā atrašanās vieta:</label>
         <select v-model="newItem.juridical_location_id" class="border p-2 w-full mb-2">
           <option value="">Nav</option>
-          <option v-for="loc in jurLocation" :key="loc.id" :value="loc.id">
+          <option v-for="loc in jurLocation" :key="loc.location_id" :value="loc.location_id">
             {{ loc.name }}
           </option>
         </select>
@@ -257,7 +251,7 @@ onMounted(() => {
         <label class="block mb-1 font-semibold">Pagaidu atrašanās vieta:</label>
         <select v-model="newItem.temp_location_id" class="border p-2 w-full mb-4">
           <option value="">Nav</option>
-          <option v-for="loc in tempLocation" :key="loc.id" :value="loc.id">
+          <option v-for="loc in tempLocation" :key="loc.location_id" :value="loc.location_id">
             {{ loc.name }}
           </option>
         </select>
@@ -300,21 +294,21 @@ onMounted(() => {
         <label class="block mb-2 font-semibold">Faktiskā atrašanās vieta</label>
         <select v-model="selectedItem.factual_location_id" class="border p-2 w-full mb-4">
           <option value="">Izvēlēties atrašanās vietu</option>
-          <option v-for="loc in facLocation" :key="loc.id" :value="loc.id">
+          <option v-for="loc in facLocation" :key="loc.location_id" :value="loc.location_id">
             {{ loc.name }}</option>
         </select>
 
         <label class="block mb-2 font-semibold">Juridiskā atrašanās vieta</label>
         <select v-model="selectedItem.juridical_location_id" class="border p-2 w-full mb-4">
           <option value="">Izvēlēties atrašanās vietu</option>
-          <option v-for="loc in jurLocation" :key="loc.id" :value="loc.id">
+          <option v-for="loc in jurLocation" :key="loc.location_id" :value="loc.location_id">
             {{ loc.name }}</option>
         </select>
 
         <label class="block mb-2 font-semibold">Pagaidu atrašanās vieta</label>
         <select v-model="selectedItem.temp_location_id" class="border p-2 w-full mb-4">
           <option value="">Izvēlēties atrašanās vietu</option>
-          <option v-for="loc in tempLocation" :key="loc.id" :value="loc.id">
+          <option v-for="loc in tempLocation" :key="loc.location_id" :value="loc.location_id">
             {{ loc.name }}</option>
         </select>
 
