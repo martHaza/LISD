@@ -54,7 +54,7 @@ const submitRequest = async () => {
             status: "pending"
         });
 
-        const requestId = requestResponse.data.request_id;
+        const requestId = requestResponse.data.item_request_id;
 
         for (const itemId of selectedItems.value) {
             for (const { fromTime, toTime } of timeSlots.value) {
