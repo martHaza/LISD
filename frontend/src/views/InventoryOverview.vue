@@ -237,7 +237,7 @@ onMounted(() => {
       </thead>
       <tbody>
         <tr v-for="item in filteredItems" :key="item.item_id" class="border">
-          <td class="border p-2">{{ item.item_id }}</td>
+          <!-- <td class="border p-2">{{ item.item_id }}</td> -->
           <td class="border p-2">{{ item.title }}</td>
           <td class="border p-2">{{ item.item_number }}</td>
           <td class="border p-2">{{ item.item_code }}</td>
