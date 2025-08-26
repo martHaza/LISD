@@ -130,7 +130,47 @@ const filteredItems = computed(() => {
 });
 
 const generateReport = () => {
-  console.log("Generating report for:", filteredItems.value);
+  if (!filteredItems.value.length) {
+    alert("Nav datu, ko ģenerēt pārskatā.");
+    return;
+}
+
+const headers = [
+    "Nosaukums",
+    "Numurs",
+    "Kods",
+    "Apraksts",
+    "Ekspluatācijas datums",
+    "Atbildīgā persona",
+    "Faktiskā atrašanās vieta",
+    "Juridiskā atrašanās vieta",
+    "Pagaidu atrašanās vieta"
+  ];
+
+  const lines = filteredItems.value.map(item => {
+    const user = findUserById(item.user_id);
+    return [
+      item.title,
+      item.item_number,
+      item.item_code,
+      item.description,
+      item.exploitation_date,
+      user ? user.username || user.email : "-",
+      findFactualLocationById(item.factual_location_id)?.room || "-",
+      findJuridicalLocationById(item.juridical_location_id)?.room || "-",
+      findTempLocationById(item.temp_location_id)?.room || "-"
+    ].join("\t"); 
+  });
+
+  const tsvContent = [headers.join("\t"), ...lines].join("\n");
+  const blob = new Blob([tsvContent], { type: "text/tab-separated-values" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `inventara_parskats_${new Date().toISOString().split("T")[0]}.tsv`;
+  a.click();
+  URL.revokeObjectURL(url);
 };
 
 onMounted(() => {
@@ -179,6 +219,7 @@ onMounted(() => {
       </select>
 
       <button @click="openCreateModal" class="bg-green-500 text-white px-3 py-1 rounded">Pievienot inventāru</button>
+      <button @click="generateReport" class="bg-blue-500 text-white px-3 py-1 rounded ml-2">Ģenerēt pārskata apkopojumu</button>
     </div>
 
     <table class="w-full border-collapse border border-gray-300">
