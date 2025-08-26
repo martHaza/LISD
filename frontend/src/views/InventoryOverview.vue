@@ -230,6 +230,7 @@ onMounted(() => {
           <th class="border p-2">Kods</th>
           <th class="border p-2">Apraksts</th>
           <th class="border p-2">Ekspluatācijas datums</th>
+          <th class="border p-2">Atbildīgā persona</th>
           <th class="border p-2">Faktiskā atrašanās vieta</th>
           <th class="border p-2">Juridiskā atrašanās vieta</th>
           <th class="border p-2">Pagaidu atrašanās vieta</th>
