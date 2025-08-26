@@ -9,6 +9,16 @@ async function getItemRequests() {
   return result.rows;
 }
 
+async function getItems() {
+  const result = await pool.query(
+    `SELECT  items.item_id, items.title, locations.room as factual_location_room
+    FROM items 
+    LEFT JOIN locations ON items.factual_location_id = locations.location_id
+    ORDER BY items.title`
+  );
+  return result.rows;
+}
+
 async function getItemRequestById(requestId) {
   const result = await pool.query(
     `SELECT item_request_id, user_id, reason, status, created_at
@@ -50,6 +60,7 @@ async function getItemReservationsForRequest(requestId) {
 }
 
 module.exports = {
+  getItems,
   getItemRequests,
   getItemRequestById,
   createItemRequest,
