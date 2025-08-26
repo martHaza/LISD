@@ -11,9 +11,22 @@ import {
 
 const router = express.Router();
 
-router.get('/items', authenticateUser, async (req, res) => {
+// router.get('/items', authenticateUser, async (req, res) => {
+//   try {
+//     const items = await getItems();
+//     res.json({ items });
+//   } catch (error) {
+//     console.error('Error fetching items:', error);
+//     res.status(500).json({ error: 'Failed to fetch items' });
+//   }
+// });
+
+router.get('/items', async (req, res) => {
   try {
+    console.log("Items route called"); // Debug log
     const items = await getItems();
+    console.log("Items from database:", items); // Debug log
+    console.log("Number of items:", items.length); // Debug log
     res.json({ items });
   } catch (error) {
     console.error('Error fetching items:', error);
