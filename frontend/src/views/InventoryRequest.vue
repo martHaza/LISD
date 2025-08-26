@@ -10,7 +10,7 @@ const selectedItems = ref([]);
 const requestInfo = ref("");
 const timeSlots = ref([{ fromTime: "", toTime: "" }]);
 
-const fetchInventoryItems = async () => {
+const fetchItems = async () => {
     try {
         const response = await api.get(`/items`);
         items.value = response.data.items;
@@ -77,7 +77,7 @@ const submitRequest = async () => {
     }
 };
 
-onMounted(fetchInventoryItems);
+onMounted(fetchItems);
 </script>
 
 <template>
