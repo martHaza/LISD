@@ -71,7 +71,7 @@ const submitRequest = async () => {
 
         const requestId = requestResponse.data.request_id;
 
-        const item = items.value.find(i => i.id === selectedItem.value);
+        const item = items.value.find(i => i.item_id === selectedItem.value);
         const fromLocation = item.factual_location_id;
         const toLocation = destinationLocation.value;
 
