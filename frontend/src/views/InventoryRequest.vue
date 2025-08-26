@@ -82,18 +82,13 @@ onMounted(fetchInventoryItems);
 
 <template>
   <div class="p-4">
-    <h1 class="text-xl font-bold mb-4">Inventāra pieprasījumi</h1>
+    <h1 class="text-xl font-bold mb-4">Inventāra izsniegšanas pieprasījums</h1>
 
     <div class="mb-4 flex flex-col gap-2">
       <label class="font-semibold">Izvēlieties inventāru:</label>
       <div class="inventory-list">
-        <div 
-          v-for="item in items" 
-          :key="item.item_id"
-          class="inventory-item border p-2 mb-2 cursor-pointer"
-          :class="{ selected: selectedItems.includes(item.item_id) }"
-          @click="toggleItemSelection(item.item_id)"
-        >
+        <div  v-for="item in items"  :key="item.item_id" class="inventory-item border p-2 mb-2 cursor-pointer" :class="{ selected: selectedItems.includes(item.item_id) }"
+          @click="toggleItemSelection(item.item_id)">
           {{ item.title }} (Faktiskā atrašanās vieta: {{ item.factual_location_room }})
         </div>
       </div>
