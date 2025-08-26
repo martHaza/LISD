@@ -7,7 +7,9 @@
       <router-link to="/gallery">Galerija</router-link> |
       <router-link v-if="authStore.currentRole=='administrators'" to="/user_overview">Lietotāju pārvaldība </router-link> |
       <router-link v-if="canReportProblem" to="/report_problem">Pieteikt bojātu inventāru</router-link> |
-      <router-link to="/inventory_overview">Inventāra pārvaldība</router-link>
+      <router-link to="/inventory_overview">Inventāra pārvaldība</router-link> |
+      <router-link to="/transfer_request">Inventāra pārvietošanas pieprasījums</router-link> |
+      <router-link to="/inventory_request">Inventāra izsniegšanas pieprasījums</router-link> |
       <button v-if="deferredPrompt" @click="installPWA">Instalēt PWA</button>
       <button v-if="authStore.token" @click="logoutAndRedirect">Logout</button>
       <select v-if="authStore.roles && authStore.roles.length > 1" v-model="authStore.currentRole">
