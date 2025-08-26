@@ -132,7 +132,7 @@ onMounted(fetchItems);
       <label class="font-semibold">Izvēlieties inventāru:</label>
       <select v-model="selectedItem" class="border p-2">
         <option value="" disabled>Izvēlies vienību...</option>
-        <option v-for="item in items" :key="item_id" :value="item_id">
+        <option v-for="item in items" :key="item.item_id" :value="item.item_id">
           {{ item.title }} (Faktiskā atrašanās vieta: {{ item.factual_location_name }})
         </option>
       </select>
@@ -142,7 +142,7 @@ onMounted(fetchItems);
       <label class="font-semibold">Galamērķa atrašanās vieta:</label>
       <select v-model="destinationLocation" class="border p-2">
         <option value="" disabled>Izvēlies atrašanās vietu...</option>
-        <option v-for="loc in availableLocations" :key="loc.id" :value="loc.id">
+        <option v-for="loc in availableLocations" :key="loc.location_id" :value="loc.location_id">
           {{ loc.name }}
         </option>
       </select>
