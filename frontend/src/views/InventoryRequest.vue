@@ -48,7 +48,7 @@ const submitRequest = async () => {
     }
 
     try {
-        const requestResponse = await api.post(`/requests`, {
+        const requestResponse = await api.post(`/item-requests`, {
             user_id: userId,
             information: requestInfo.value,
             status: "pending"
