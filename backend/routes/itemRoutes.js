@@ -5,6 +5,9 @@ const {
 const {
   getAllItems
 } = require("../services/itemService");
+const {
+  getItems
+} = require("../services/itemService")
 
 const router = express.Router();
 const { authenticateUser, authorizeRole } = require("../middleware/authMiddleware");
@@ -26,6 +29,16 @@ router.get("/items", authenticateUser, async (req, res) => {
   try {
     const items = await getAllItems(); 
     res.json(items);
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    res.status(500).json({ message: "Error fetching items" });
+  }
+});
+
+router.get("/items/list", authenticateUser, async (req, res) => {
+  try {
+    const items = await getItems(); 
+    res.json({ items });  
   } catch (error) {
     console.error("Error fetching items:", error);
     res.status(500).json({ message: "Error fetching items" });
