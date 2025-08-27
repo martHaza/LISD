@@ -21,7 +21,18 @@ async function getAllItems() {
     return rows;
 }
 
+async function getItems() {
+  const result = await db.query(
+    `SELECT items.item_id, items.title, items.factual_location_id, locations.room as factual_location_room
+     FROM items 
+     JOIN locations ON items.factual_location_id = locations.location_id
+     ORDER BY items.title ASC`
+  );
+  return result.rows;
+}
+
 module.exports = {
     getItemByItemNumber,
-    getAllItems
+    getAllItems,
+    getItems
 };
