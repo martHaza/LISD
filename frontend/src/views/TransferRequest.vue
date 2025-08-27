@@ -16,8 +16,8 @@ const availableLocations = ref([]);
 const fetchItems = async () => {
   try {
     const [itemsRes, locationsRes] = await Promise.all([
-      api.get("/items"),
-      api.get("/locations")
+      api.get("/items/list"),
+      api.get("/locations/list")
     ]);
     items.value = itemsRes.data.items;
     availableLocations.value = locationsRes.data.locations;
@@ -133,7 +133,7 @@ onMounted(fetchItems);
       <select v-model="selectedItem" class="border p-2">
         <option value="" disabled>Izvēlies vienību...</option>
         <option v-for="item in items" :key="item.item_id" :value="item.item_id">
-          {{ item.title }} (Faktiskā atrašanās vieta: {{ item.factual_location_name }})
+          {{ item.title }} (Faktiskā atrašanās vieta: {{ item.factual_location_room }})
         </option>
       </select>
     </div>
