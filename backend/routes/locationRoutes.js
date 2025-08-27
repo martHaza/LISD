@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {
+    getLocations,
     getFactualLocations,
     getJuridicalLocations,
     getTemporaryLocations,
@@ -10,6 +11,16 @@ const {
 } = require("../services/locationService");
 
 const { authenticateUser } = require("../middleware/authMiddleware");
+
+router.get("/list", authenticateUser, async (req, res) => {
+    try {
+        const locations = await getLocations();
+        res.json({ locations });
+    } catch (error) {
+        console.error("Error fetching locations:", error);
+        res.status(500).json({ message: "Error fetching locations" });
+    }
+});
 
 router.get("/factual", authenticateUser, async (req, res) => {
     try {
