@@ -1,5 +1,12 @@
 const pool = require("../db");
 
+async function getLocations() {
+    const result = await pool.query(
+        `SELECT location_id, room FROM locations ORDER BY room`
+    );
+    return result.rows;
+}
+
 async function getFactualLocations() {
     const [rows] = await pool.query(`
         SELECT locations.location_id, locations.room
@@ -53,6 +60,7 @@ async function deleteLocation(id) {
 }
 
 module.exports = {
+    getLocations,
     getFactualLocations,
     getJuridicalLocations,
     getTemporaryLocations,
