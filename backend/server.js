@@ -16,7 +16,8 @@ const uploadRoutes = require("./routes/uploadRoutes");
 const locationRoutes = require("./routes/locationRoutes");
 const inventoryRequestRoutes = require("./routes/inventoryRequestRoutes");
 const transferRequestRoutes = require("./routes/transferRequestRoutes");
-const { default: InventoryRequest } = require("../frontend/src/views/InventoryRequest.vue");
+const issueRoutes = require("./routes/issueRoutes");
+const itemReservationRoutes = require("./routes/itemReservationRoutes");
 
 const app = express();
 app.use(cors());
@@ -42,6 +43,8 @@ app.use("/api", rolesRoutes);
 app.use("/api", localUserRoutes);
 app.use("/api", itemRoutes);
 app.use("/api/locations", locationRoutes);
+app.use("/api", issueRoutes);
+app.use("/api", itemReservationRoutes);
 app.use("/api", inventoryRequestRoutes);
 app.use("/api", transferRequestRoutes);
 
