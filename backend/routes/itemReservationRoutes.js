@@ -7,6 +7,7 @@ const {
   deleteItemReservation
 } = require("../services/itemReservationService");
 const router = express.Router();
+const { authenticateUser } = require("../middleware/authMiddleware");
 
 router.get("/item-reservations", authenticateUser, async (req, res) => {
   try {
