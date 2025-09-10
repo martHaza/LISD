@@ -1,12 +1,12 @@
 import express from "express";
-import {
+const {
   getItems,
   createItemRequest,
   getItemRequests,
   getItemRequestById,
   createItemReservation,
   getItemReservationsForRequest
-} from "../services/inventoryRequestService";
+} = require("../services/inventoryRequestService");
 
 const router = express.Router();
 const { authenticateUser } = require("../middleware/authMiddleware");
