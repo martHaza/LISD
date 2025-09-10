@@ -9,7 +9,7 @@ import {
 } from "../services/inventoryRequestService";
 
 const router = express.Router();
-import { authenticateUser } from ("../middleware/authMiddleware");
+import { authenticateUser } from "../middleware/authMiddleware";
 
 // router.get('/items', authenticateUser, async (req, res) => {
 //   try {
