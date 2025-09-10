@@ -1,12 +1,12 @@
 import express from "express";
-import { authenticateUser } from "../middleware/authMiddleware";
-const {
+import { authenticateUser } from "../middleware/authMiddleware.js";
+import {
   createTransfer,
   getTransfers,
   getTransferById,
   updateTransfer,
   deleteTransfer
-} = require("../services/transferRequestService");
+} from "../services/transferRequestService.js";
 const router = express.Router();
 
 router.get("/transfers", authenticateUser, async (req, res) => {
