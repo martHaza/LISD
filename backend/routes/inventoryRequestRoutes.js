@@ -1,5 +1,4 @@
 import express from "express";
-import { authenticateUser } from "../middleware/authMiddleware";
 import {
   getItems,
   createItemRequest,
@@ -10,6 +9,7 @@ import {
 } from "../services/inventoryRequestService";
 
 const router = express.Router();
+const { authenticateUser } = require("../middleware/authMiddleware");
 
 // router.get('/items', authenticateUser, async (req, res) => {
 //   try {
