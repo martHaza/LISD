@@ -6,10 +6,10 @@ import {
   getItemRequestById,
   createItemReservation,
   getItemReservationsForRequest
-} from "../services/inventoryRequestService";
+} from "../services/inventoryRequestService.js";
 
 const router = express.Router();
-import { authenticateUser } from "../middleware/authMiddleware";
+import { authenticateUser } from "../middleware/authMiddleware,js";
 
 // router.get('/items', authenticateUser, async (req, res) => {
 //   try {
