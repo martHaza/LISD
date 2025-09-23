@@ -1,10 +1,14 @@
-const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from "url";
 const router = express.Router();
 
-const { authenticateUser, authorizeRole } = require('../middleware/authMiddleware');
+import { authenticateUser, authorizeRole } from '../middleware/authMiddleware.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -61,4 +65,4 @@ router.get('/image/:filename', /*authenticateUser,*/ (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

@@ -1,8 +1,8 @@
-const express = require("express");
-const { 
+import express from "express";
+import { 
     loginWithGoogle, 
     loginWithUsernamePassword, 
-    verifyToken } = require("../services/authService");
+    verifyToken } from "../services/authService.js";
 
 const router = express.Router();
 
@@ -40,4 +40,4 @@ router.get("/auth/verify", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

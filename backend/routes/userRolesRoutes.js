@@ -1,14 +1,14 @@
-const express = require("express");
-const {
+import express from "express";
+import {
     getUserRoles,
     assignRole,
     removeRole,
     getAllUserRoles,
-} = require("../services/userRolesService");
-const { getRoleIdByName } = require("../services/rolesService");
+} from "../services/userRolesService.js";
+import { getRoleIdByName } from "../services/rolesService.js";
 const router = express.Router();
-const { authenticateUser, authorizeRole } = require("../middleware/authMiddleware");
-const jwt = require('jsonwebtoken');
+import { authenticateUser, authorizeRole } from "../middleware/authMiddleware.js";
+import jwt from 'jsonwebtoken';
 
 router.get("/user_roles/id/:userId", authenticateUser, authorizeRole(["laborants", "materiāli atbildīgā persona", "administrators"]), async (req, res) => {
     try {
@@ -74,4 +74,4 @@ router.get('/user_roles', authenticateUser, authorizeRole(["laborants", "materi�
     }
 });
   
-module.exports = router;
+export default router;

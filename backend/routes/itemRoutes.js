@@ -1,16 +1,16 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getItemByItemNumber
-} = require("../services/itemService");
-const {
+} from "../services/itemService.js";
+import {
   getAllItems
-} = require("../services/itemService");
-const {
+} from "../services/itemService.js";
+import {
   getItems
-} = require("../services/itemService")
+} from "../services/itemService.js"
 
 const router = express.Router();
-const { authenticateUser, authorizeRole } = require("../middleware/authMiddleware");
+import { authenticateUser, authorizeRole } from "../middleware/authMiddleware.js";
 
 router.get("/items/item_number/:item_number", authenticateUser, async (req, res) => {
   try {
@@ -45,4 +45,4 @@ router.get("/items/list", authenticateUser, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

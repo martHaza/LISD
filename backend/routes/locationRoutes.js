@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const {
+import {
     getLocations,
     getFactualLocations,
     getJuridicalLocations,
@@ -8,9 +8,9 @@ const {
     createLocation,
     updateLocation,
     deleteLocation
-} = require("../services/locationService");
+} from "../services/locationService.js";
 
-const { authenticateUser } = require("../middleware/authMiddleware");
+import { authenticateUser } from "../middleware/authMiddleware.js";
 
 router.get("/list", authenticateUser, async (req, res) => {
     try {
@@ -87,6 +87,6 @@ router.delete("/locations/:id", authenticateUser, async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
 
 

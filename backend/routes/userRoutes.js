@@ -1,16 +1,16 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getUsers,
   getUserById,
   createUser,
   updateUser,
   updateUserPhoneNumber,
   deleteUser
-} = require("../services/userService");
+} from "../services/userService.js";
 
 const router = express.Router();
-const { authenticateUser, authorizeRole } = require("../middleware/authMiddleware");
-const jwt = require('jsonwebtoken');
+import { authenticateUser, authorizeRole } from "../middleware/authMiddleware.js";
+import jwt from 'jsonwebtoken';
 
 router.get("/users", authenticateUser, authorizeRole(["laborants", "materiāli atbildīgā persona", "administrators"]), async (req, res) => {
   try {
@@ -92,4 +92,4 @@ router.delete("/users/id/:id", authenticateUser, authorizeRole(["administrators"
   }
 });
 
-module.exports = router;
+export default router;

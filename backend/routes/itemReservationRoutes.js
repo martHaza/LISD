@@ -1,13 +1,13 @@
 import express from "express";
-const {
+import {
   createItemReservation,
   getItemReservations,
   getItemReservationById,
   updateItemReservation,
   deleteItemReservation
-} = require("../services/itemReservationService");
+} from "../services/itemReservationService.js";
 const router = express.Router();
-const { authenticateUser } = require("../middleware/authMiddleware");
+import { authenticateUser } from "../middleware/authMiddleware.js";
 
 router.get("/item-reservations", authenticateUser, async (req, res) => {
   try {
@@ -74,4 +74,4 @@ router.delete("/item-reservations/:id", authenticateUser, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

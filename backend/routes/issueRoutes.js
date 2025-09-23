@@ -1,15 +1,15 @@
 import express from "express";
 const router = express.Router();
-const {
+import {
     createIssue,
     getIssues,
     getIssueById,
     updateIssueStatus,
     getIssueComments,
     addIssueComment
-} = require("../services/issueService");
+} from "../services/issueService.js";
 
-const { authenticateUser, authorizeRole } = require("../middleware/authMiddleware");
+import { authenticateUser, authorizeRole } from "../middleware/authMiddleware.js";
 
 router.get("/issues", authenticateUser, async (req, res) => {
     try {
@@ -85,4 +85,4 @@ router.post("/issues/:id/comments", authenticateUser, authorizeRole(["laborants"
     }
 });
 
-module.exports = router;
+export default router;

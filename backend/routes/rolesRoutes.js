@@ -1,14 +1,14 @@
-const express = require("express");
-const {
+import express from "express";
+import {
     getAllRoles,
     getRoleById,
     createRole,
     updateRole,
     deleteRole
-} = require("../services/rolesService");
+} from "../services/rolesService.js";
 
 const router = express.Router();
-const { authenticateUser, authorizeRole } = require("../middleware/authMiddleware");
+import { authenticateUser, authorizeRole } from "../middleware/authMiddleware.js";
 
 router.get("/roles", authenticateUser, authorizeRole(["laborants", "materiāli atbildīgā persona", "administrators"]), async (req, res) => {
     try {
@@ -66,4 +66,4 @@ router.delete("/roles/id/:roleId", authenticateUser, authorizeRole(["administrat
     }
 });
 
-module.exports = router;
+export default router;
