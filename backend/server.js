@@ -1,30 +1,37 @@
-const https = require("https");
-const fs = require("fs");
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const admin = require("firebase-admin");
-require("dotenv").config();
+import https from "https";
+import fs from "fs";
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import admin from "firebase-admin";
+import dotenv from "dotenv";
 
-const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes");
-const userRolesRoutes = require("./routes/userRolesRoutes");
-const rolesRoutes = require("./routes/rolesRoutes");
-const localUserRoutes = require("./routes/localUserRoutes");
-const itemRoutes = require("./routes/itemRoutes");
-const uploadRoutes = require("./routes/uploadRoutes");
-const locationRoutes = require("./routes/locationRoutes");
-const inventoryRequestRoutes = require("./routes/inventoryRequestRoutes");
-const transferRequestRoutes = require("./routes/transferRequestRoutes");
-const issueRoutes = require("./routes/issueRoutes");
-const itemReservationRoutes = require("./routes/itemReservationRoutes");
+dotenv.config();
+
+
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import userRolesRoutes from "./routes/userRolesRoutes.js";
+import rolesRoutes from "./routes/rolesRoutes.js";
+import localUserRoutes from "./routes/localUserRoutes.js";
+import itemRoutes from "./routes/itemRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+import locationRoutes from "./routes/locationRoutes.js";
+import inventoryRequestRoutes from "./routes/inventoryRequestRoutes.js";
+import transferRequestRoutes from "./routes/transferRequestRoutes.js";
+import issueRoutes from "./routes/issueRoutes.js";
+import itemReservationRoutes from "./routes/itemReservationRoutes.js";
+
+const serviceAccount = JSON.parse(
+  fs.readFileSync(new URL("./firebase-adminsdk.json", import.meta.url))
+);
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
 admin.initializeApp({
-  credential: admin.credential.cert(require("./firebase-adminsdk.json")), 
+  credential: admin.credential.cert(serviceAccount), 
 });
 
 app.get("/", (req, res) => {
