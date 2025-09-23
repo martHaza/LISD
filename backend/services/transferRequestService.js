@@ -1,4 +1,4 @@
-const pool = require("../db");
+import pool from "../db.js";
 
 async function getTransfers() {
   const result = await db.query(
@@ -72,7 +72,7 @@ async function deleteTransfer(id) {
   return { message: "Transfer deleted" };
 }
 
-module.exports = {
+export {
   getTransfers,
   getTransferById,
   createTransfer,

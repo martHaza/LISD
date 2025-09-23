@@ -1,4 +1,4 @@
-const pool = require("../db");
+import pool from "../db.js"; 
 
 async function getUserRoles(userId) {
     const [rows] = await pool.execute(`
@@ -48,7 +48,7 @@ async function getAllUserRoles() {
     return rows;
 }
 
-module.exports = {
+export {
     getUserRoles,
     assignRole,
     removeRole,

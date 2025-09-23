@@ -1,4 +1,4 @@
-const pool = require("../db");
+import pool from "../db.js"; 
 
 async function createUser({ user_type, email, phone_number, is_active }) {
     const [result] = await pool.query(`
@@ -54,7 +54,7 @@ async function deleteUser(userId) {
     await pool.query(`DELETE FROM users WHERE user_id = ?`, [userId]);
 }
 
-module.exports = {
+export {
     createUser,
     getUsers,
     getUserById,

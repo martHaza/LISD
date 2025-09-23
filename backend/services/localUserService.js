@@ -1,4 +1,4 @@
-const pool = require("../db");
+import pool from "../db.js"; 
 
 async function createLocalUser({ user_id, username, password_hash }) {
     const [result] = await pool.query(`
@@ -36,7 +36,7 @@ async function deleteLocalUser(userId) {
 
 
 
-module.exports = {
+export {
     createLocalUser,
     getLocalUsers,
     getLocalUserById,

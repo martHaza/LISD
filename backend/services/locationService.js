@@ -1,4 +1,4 @@
-const pool = require("../db");
+import pool from "../db.js"; 
 
 async function getLocations() {
     const result = await pool.query(
@@ -59,7 +59,7 @@ async function deleteLocation(id) {
     await pool.query("DELETE FROM locations WHERE location_id = ?", [id]);
 }
 
-module.exports = {
+export {
     getLocations,
     getFactualLocations,
     getJuridicalLocations,

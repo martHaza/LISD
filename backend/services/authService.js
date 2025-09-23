@@ -1,8 +1,9 @@
-const admin = require("firebase-admin");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const pool = require("../db");
-require("dotenv").config();
+import admin from "firebase-admin";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import pool from "../db.js"; 
+import dotenv from "dotenv";
+dotenv.config();
 
 async function getUserRoles(username) {
     const [rows] = await pool.query(`
@@ -138,4 +139,4 @@ async function verifyToken(token) {
     }
 }
 
-module.exports = { loginWithGoogle, loginWithUsernamePassword, verifyToken };
+export { loginWithGoogle, loginWithUsernamePassword, verifyToken };

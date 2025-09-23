@@ -1,4 +1,4 @@
-const pool = require("../db");
+import pool from "../db.js";
 
 async function createIssue({ item_id, reported_by, status, description }) {
     const [result] = await pool.query(`
@@ -57,7 +57,7 @@ async function addIssueComment(issue_id, user_id, comment) {
     `, [issue_id, user_id, comment]);
 }
 
-module.exports = {
+export {
     createIssue,
     getIssues,
     getIssueById,

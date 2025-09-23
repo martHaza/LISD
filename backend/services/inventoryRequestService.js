@@ -1,4 +1,4 @@
-const pool = require("../db");
+import pool from "../db.js";
 
 async function getItemRequests() {
   const result = await pool.query(
@@ -59,11 +59,11 @@ async function getItemReservationsForRequest(requestId) {
   return result.rows;
 }
 
-module.exports = {
-  getItems,
-  getItemRequests,
-  getItemRequestById,
-  createItemRequest,
-  createItemReservation,
-  getItemReservationsForRequest
+export { 
+  getItems, 
+  getItemRequests, 
+  getItemRequestById, 
+  createItemRequest, 
+  createItemReservation, 
+  getItemReservationsForRequest 
 };
