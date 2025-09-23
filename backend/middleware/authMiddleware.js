@@ -1,4 +1,4 @@
-const { verifyToken } = require("../services/authService");
+import { verifyToken } from "../services/authService.js";
 
 async function authenticateUser(req, res, next) {
     const token = req.headers.authorization?.split(" ")[1];
@@ -25,4 +25,4 @@ function authorizeRole(allowedRoles) {
     };
 }
 
-module.exports = { authenticateUser, authorizeRole };
+export { authenticateUser, authorizeRole };
