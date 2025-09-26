@@ -13,6 +13,7 @@ import ProblemOverview from "./views/ProblemOverview.vue";
 import TransferRequest from "./views/TransferRequest.vue";
 import InventoryRequest from "./views/InventoryRequest.vue";
 import InventoryRequestOverview from "./views/InventoryRequestOverview.vue";
+import TransferRequestOverview from "./views/TransferRequestOverview.vue";
 
 const routes = [
     { path: "/", component: Home, meta: { requiresAuth: true }},
@@ -22,13 +23,13 @@ const routes = [
     { path: "/image-upload", component: ImageUpload , meta: { requiresAuth: true }},
     { path: "/gallery", component: Gallery , meta: { requiresAuth: true }},
     { path: "/user_overview", component: UserOverview, meta: { requiresAuth: true }},
-    { path: "/inventory_overview", component: InventoryOverview, meta: { requiresAuth: true }},
+    { path: "/inventory_overview", component: InventoryOverview, meta: { requiresAuth: true }}, // from here
     { path: "/report_problem", component: ReportProblem, meta: { requiresAuth: true }},
     { path: "/problem_overview", component: ProblemOverview, meta: { requiresAuth: true }},
     { path: "/transfer_request", component: TransferRequest, meta: { requiresAuth: true }},
     { path: "/inventory_request", component: InventoryRequest, meta: { requiresAuth: true }},
     { path: "/inventory_request_overview", component: InventoryRequestOverview, meta: { requiresAuth: true }},
-    { path: "/transfer_request_overview", component: TransferRequest, meta: { requiresAuth: true }}
+    { path: "/transfer_request_overview", component: TransferRequestOverview, meta: { requiresAuth: true }} // to here
 ];
 
 const router = createRouter({
