@@ -49,7 +49,7 @@ app.use("/api", userRolesRoutes);
 app.use("/api", rolesRoutes);
 app.use("/api", localUserRoutes);
 app.use("/api", itemRoutes);
-app.use("/api/locations", locationRoutes);
+app.use("/api", locationRoutes);
 app.use("/api", issueRoutes);
 app.use("/api", itemReservationRoutes);
 app.use("/api", inventoryRequestRoutes);

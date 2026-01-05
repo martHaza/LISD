@@ -111,23 +111,59 @@ const findFactualLocationById = (id) => facLocation.value.find(l => l.id === id)
 const findJuridicalLocationById = (id) => jurLocation.value.find(l => l.id === id);
 const findTempLocationById = (id) => tempLocation.value.find(l => l.id === id);
 
+// const filteredItems = computed(() => {
+//     return items.value.filter(item => {
+//     const matchesResponsible =
+//       !selectedPerson.value || item.user_id === selectedPerson.value;
+//     const matchesFactual =
+//       !selectedFactualLocation.value || item.factual_location_id === selectedFactualLocation.value;
+//     const matchesJuridical =
+//       !selectedJuridicalLocation.value || item.juridical_location_id === selectedJuridicalLocation.value;
+//     const matchesTemp =
+//       !selectedTempLocation.value || item.temp_location_id === selectedTempLocation.value;
+//     const matchesSearch =
+//       item.title?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+//       item.item_number?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+//       item.item_code?.toLowerCase().includes(searchQuery.value.toLowerCase());
+//     return matchesResponsible && matchesFactual && matchesJuridical && matchesTemp && matchesSearch;
+//   });
+// });
 const filteredItems = computed(() => {
-    return items.value.filter(item => {
+  const q = searchQuery.value.toLowerCase();
+
+  return items.value.filter(item => {
     const matchesResponsible =
-      !selectedPerson.value || item.user_id === selectedPerson.value;
+      !selectedPerson.value ||
+      item.user_email?.toLowerCase() === selectedPerson.value.toLowerCase();
+
     const matchesFactual =
-      !selectedFactualLocation.value || item.factual_location_id === selectedFactualLocation.value;
+      !selectedFactualLocation.value ||
+      item.factual_location === selectedFactualLocation.value;
+
     const matchesJuridical =
-      !selectedJuridicalLocation.value || item.juridical_location_id === selectedJuridicalLocation.value;
+      !selectedJuridicalLocation.value ||
+      item.juridical_location === selectedJuridicalLocation.value;
+
     const matchesTemp =
-      !selectedTempLocation.value || item.temp_location_id === selectedTempLocation.value;
+      !selectedTempLocation.value ||
+      item.temp_location === selectedTempLocation.value;
+
     const matchesSearch =
-      item.title?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      item.item_number?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      item.item_code?.toLowerCase().includes(searchQuery.value.toLowerCase());
-    return matchesResponsible && matchesFactual && matchesJuridical && matchesTemp && matchesSearch;
+      item.title?.toLowerCase().includes(q) ||
+      item.item_number?.toLowerCase().includes(q) ||
+      item.item_code?.toLowerCase().includes(q) ||
+      item.user_email?.toLowerCase().includes(q);
+
+    return (
+      matchesResponsible &&
+      matchesFactual &&
+      matchesJuridical &&
+      matchesTemp &&
+      matchesSearch
+    );
   });
 });
+
 
 const generateReport = () => {
   if (!filteredItems.value.length) {
@@ -155,10 +191,15 @@ const headers = [
       item.item_code,
       item.description,
       item.exploitation_date,
-      user ? user.username || user.email : "-",
-      findFactualLocationById(item.factual_location_id)?.room || "-",
-      findJuridicalLocationById(item.juridical_location_id)?.room || "-",
-      findTempLocationById(item.temp_location_id)?.room || "-"
+      item.user_email,
+      // user ? user.username || user.email : "-",
+      item.factual_location,
+      item.juridical_location,
+      item.temp_location,
+      // findFactualLocationById(item.factual_location_id)?.room || "-",
+      // findJuridicalLocationById(item.juridical_location_id)?.room || "-",
+      // findTempLocationById(item.temp_location_id)?.room || "-"
+
     ].join("\t"); 
   });
 
@@ -186,15 +227,28 @@ onMounted(() => {
 
     <div class="mb-4">
       <input type="text" v-model="searchQuery" placeholder="Meklēt" class="border p-2 w-full" />
-      <label for="role-filter" class="mr-2">Filtrēt pēc personām:</label>
+
+      <!-- <label for="role-filter" class="mr-2">Filtrēt pēc personām:</label>
       <select v-model="selectedPerson" class="border p-2">
         <option value="">Visas personas</option>
         <option v-for="user in responsiblePersons" :key="user.user_id" :value="user.user_id">
           {{ user.username || user.email }}
           </option>
+      </select> -->
+
+      <label for="role-filter" class="mr-2">Filtrēt pēc personām:</label>
+      <select v-model="selectedPerson" class="border p-2">
+        <option value="">Visas personas</option>
+        <option
+          v-for="user in responsiblePersons"
+          :key="user.user_id"
+          :value="user.email"
+        >
+          {{ user.username || user.email }}
+        </option>
       </select>
 
-      <label for="factual-filter" class="ml-2">Faktiskā:</label>
+      <!-- <label for="factual-filter" class="ml-2">Faktiskā:</label>
       <select v-model="selectedFactualLocation" class="border p-2">
         <option value="">Visas</option>
         <option v-for="loc in facLocation" :key="loc.location_id" :value="loc.location_id">
@@ -216,7 +270,44 @@ onMounted(() => {
         <option v-for="loc in tempLocation" :key="loc.location_id" :value="loc.location_id">
           {{ loc.room }}
           </option>
+      </select> -->
+
+      <label for="factual-filter" class="ml-2">Faktiskā:</label>
+      <select v-model="selectedFactualLocation" class="border p-2">
+        <option value="">Visas</option>
+        <option
+          v-for="loc in facLocation"
+          :key="loc.location_id"
+          :value="loc.room"
+        >
+          {{ loc.room }}
+        </option>
       </select>
+
+      <label for="juridical-filter" class="ml-2">Juridiskā:</label>
+      <select v-model="selectedJuridicalLocation" class="border p-2">
+        <option value="">Visas</option>
+        <option
+          v-for="loc in jurLocation"
+          :key="loc.location_id"
+          :value="loc.room"
+        >
+          {{ loc.room }}
+        </option>
+      </select>
+
+      <label for="temp-filter" class="ml-2">Pagaidu:</label>
+      <select v-model="selectedTempLocation" class="border p-2">
+        <option value="">Visas</option>
+        <option
+          v-for="loc in tempLocation"
+          :key="loc.location_id"
+          :value="loc.room"
+        >
+          {{ loc.room }}
+        </option>
+      </select>
+
 
       <button @click="openCreateModal" class="bg-green-500 text-white px-3 py-1 rounded">Pievienot inventāru</button>
       <button @click="generateReport" class="bg-blue-500 text-white px-3 py-1 rounded ml-2">Ģenerēt pārskata apkopojumu</button>
@@ -244,10 +335,10 @@ onMounted(() => {
           <td class="border p-2">{{ item.item_code }}</td>
           <td class="border p-2">{{ item.description }}</td>
           <td class="border p-2">{{ item.exploitation_date }}</td>
-          <td class="border p-2">{{ findUserById(item.user_id)?.username || findUserById(item.user_id)?.email || '-' }}</td>
-          <td class="border p-2">{{ findFactualLocationById(item.factual_location_id)?.room || '-' }}</td>
-          <td class="border p-2">{{ findJuridicalLocationById(item.juridical_location_id)?.room || '-' }}</td>
-          <td class="border p-2">{{ findTempLocationById(item.temp_location_id)?.room || '-' }}</td>
+          <td class="border p-2">{{ item.user_email || '-' }}</td>
+          <td class="border p-2">{{ item.factual_location || '-' }}</td>
+          <td class="border p-2">{{ item.juridical_location || '-' }}</td>
+          <td class="border p-2">{{ item.temp_location || '-' }}</td>
            <td class="border p-2">
             <button @click="openEditModal(item)" class="bg-blue-500 text-white px-3 py-1 rounded">Rediģēt</button>
           </td>

@@ -11,8 +11,8 @@ async function getFactualLocations() {
     const [rows] = await pool.query(`
         SELECT locations.location_id, locations.room
         FROM locations
-        LEFT JOIN items i ON items.factual_location_id = locations.location_id
-        GROUP BY locations.location_id, locations.room
+        LEFT JOIN items i ON i.factual_location_id = locations.location_id
+        GROUP BY i.factual_location_id, locations.room
      `);
     return rows;
 }
@@ -21,8 +21,8 @@ async function getJuridicalLocations() {
     const [rows] = await pool.query(`
         SELECT locations.location_id, locations.room
         FROM locations
-         LEFT JOIN items i ON items.juridical_location_id = locations.location_id
-        GROUP BY locations.location_id, locations.room
+        LEFT JOIN items i ON i.juridical_location_id = locations.location_id
+        GROUP BY i.juridical_location_id, locations.room
     `);
     return rows;
 }
@@ -31,8 +31,8 @@ async function getTemporaryLocations() {
     const [rows] = await pool.query(`
         SELECT locations.location_id, locations.room
         FROM locations 
-        LEFT JOIN items i ON items.temp_location_id = locations.location_id
-        GROUP BY locations.location_id, locations.room
+        LEFT JOIN items i ON i.temp_location_id = locations.location_id
+        GROUP BY i.temp_location_id, locations.room
     `);
     return rows;
 }
