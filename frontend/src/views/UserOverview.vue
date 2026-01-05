@@ -100,8 +100,9 @@ const saveUserRoles = async () => {
     //   ? selectedUser.value.roles
     //   : (selectedUser.value.roles || '').toString().split(',').filter(Boolean);
 
+    // let originalUser = [];
 
-    const rolesToAdd = selectedUserRoles.value.filter(role => !originalUser.includes(role));
+    const rolesToAdd = selectedUserRoles.value.filter(role => !selectedUser.value.roles.includes(role));
     const rolesToRemove = originalRoles.filter(role => !selectedUserRoles.value.includes(role));
 
     for (const role of rolesToAdd) {
