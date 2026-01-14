@@ -7,6 +7,9 @@ import {
 } from "../services/itemService.js";
 import {
   getItems
+} from "../services/itemService.js";
+import {
+  getItemsForTransfer
 } from "../services/itemService.js"
 
 const router = express.Router();
@@ -35,13 +38,23 @@ router.get("/items", authenticateUser, async (req, res) => {
   }
 });
 
-router.get("/items/list", authenticateUser, async (req, res) => {
+// router.get("/items/list", authenticateUser, async (req, res) => {
+//   try {
+//     const items = await getItems(); 
+//     res.json({ items });  
+//   } catch (error) {
+//     console.error("Error fetching items:", error);
+//     res.status(500).json({ message: "Error fetching items" });
+//   }
+// });
+
+router.get("/items/transfer-list", authenticateUser, async (req, res) => {
   try {
-    const items = await getItems(); 
+    const items = await getItemsForTransfer(); 
     res.json({ items });  
   } catch (error) {
-    console.error("Error fetching items:", error);
-    res.status(500).json({ message: "Error fetching items" });
+    console.error("Error fetching items for transfer:", error);
+    res.status(500).json({ message: "Error fetching items for transfer" });
   }
 });
 
