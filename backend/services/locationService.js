@@ -1,10 +1,10 @@
 import pool from "../db.js"; 
 
 async function getLocations() {
-    const result = await pool.query(
+    const [rows] = await pool.query(
         `SELECT location_id, room FROM locations ORDER BY room`
     );
-    return result.rows;
+    return rows;
 }
 
 async function getFactualLocations() {
@@ -59,6 +59,15 @@ async function deleteLocation(id) {
     await pool.query("DELETE FROM locations WHERE location_id = ?", [id]);
 }
 
+async function getLocationsForTransfer() {
+    const [rows] = await pool.query(`
+        SELECT location_id, room 
+        FROM locations 
+        ORDER BY room ASC
+    `);
+    return rows;
+}
+
 export {
     getLocations,
     getFactualLocations,
@@ -66,5 +75,6 @@ export {
     getTemporaryLocations,
     createLocation,
     updateLocation,
-    deleteLocation
+    deleteLocation,
+    getLocationsForTransfer
 };

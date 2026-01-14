@@ -12,7 +12,7 @@ const timeSlots = ref([{ fromTime: "", toTime: "" }]);
 
 const fetchItems = async () => {
     try {
-        const response = await api.get(`/items`);
+        const response = await api.get(`/items/transfer-list`);
         items.value = response.data.items;
     } catch (error) {
         console.error("Failed to fetch items:", error);
@@ -86,11 +86,12 @@ onMounted(fetchItems);
 
     <div class="mb-4 flex flex-col gap-2">
       <label class="font-semibold">Izvēlieties inventāru:</label>
-      <div class="inventory-list">
-        <div  v-for="item in items"  :key="item.item_id" class="inventory-item border p-2 mb-2 cursor-pointer" :class="{ selected: selectedItems.includes(item.item_id) }"
-          @click="toggleItemSelection(item.item_id)">
+      <select v-model="selectedItem" class="border p-2 select-field-item">
+      <option value="" disabled>Izvēlies vienību...</option>
+        <option v-for="item in items" :key="item.item_id" :value="item.item_id">
           {{ item.title }} (Faktiskā atrašanās vieta: {{ item.factual_location_room }})
-        </div>
+        </option>
+        </select>
       </div>
     </div>
 
@@ -114,13 +115,18 @@ onMounted(fetchItems);
         Iesniegt pieprasījumu
       </button>
     </div>
-  </div>
 </template>
 
 <style scoped>
 html,
 body {
   overflow: visible !important;
+}
+
+.select-field-item {
+  width: 600px; 
+  max-width: 100%;
+  min-height: 20px;
 }
 
 .request-container {

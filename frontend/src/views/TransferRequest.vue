@@ -16,8 +16,8 @@ const availableLocations = ref([]);
 const fetchItems = async () => {
   try {
     const [itemsRes, locationsRes] = await Promise.all([
-      api.get("/items/list"),
-      api.get("/locations/list")
+      api.get("/items/transfer-list"), 
+      api.get("/locations/transfer-list")
     ]);
     items.value = itemsRes.data.items;
     availableLocations.value = locationsRes.data.locations;
@@ -130,10 +130,10 @@ onMounted(fetchItems);
 
     <div class="mb-4 flex flex-col gap-2">
       <label class="font-semibold">Izvēlieties inventāru:</label>
-      <select v-model="selectedItem" class="border p-2">
+      <select v-model="selectedItem" class="border p-2 select-field-item">
         <option value="" disabled>Izvēlies vienību...</option>
         <option v-for="item in items" :key="item.item_id" :value="item.item_id">
-          {{ item.title }} (Faktiskā atrašanās vieta: {{ item.factual_location_room }})
+          {{ item.title }} 
         </option>
       </select>
     </div>
@@ -143,7 +143,7 @@ onMounted(fetchItems);
       <select v-model="destinationLocation" class="border p-2">
         <option value="" disabled>Izvēlies atrašanās vietu...</option>
         <option v-for="loc in availableLocations" :key="loc.location_id" :value="loc.location_id">
-          {{ loc.name }}
+          {{ loc.room }}
         </option>
       </select>
     </div>
@@ -175,6 +175,11 @@ onMounted(fetchItems);
 html,
 body {
   overflow: visible !important;
+}
+
+.select-field-item {
+  width: 400px;
+  max-width: 100%;
 }
 
 .bg-gray-200 {

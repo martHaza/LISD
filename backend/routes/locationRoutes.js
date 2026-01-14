@@ -7,18 +7,29 @@ import {
     getTemporaryLocations,
     createLocation,
     updateLocation,
-    deleteLocation
+    deleteLocation,
+    getLocationsForTransfer
 } from "../services/locationService.js";
 
 import { authenticateUser } from "../middleware/authMiddleware.js";
 
-router.get("/list", authenticateUser, async (req, res) => {
+// router.get("/locations/list", authenticateUser, async (req, res) => {
+//     try {
+//         const locations = await getLocations();
+//         res.json({ locations });
+//     } catch (error) {
+//         console.error("Error fetching locations:", error);
+//         res.status(500).json({ message: "Error fetching locations" });
+//     }
+// });
+
+router.get("/locations/transfer-list", authenticateUser, async (req, res) => {
     try {
-        const locations = await getLocations();
+        const locations = await getLocationsForTransfer();
         res.json({ locations });
     } catch (error) {
-        console.error("Error fetching locations:", error);
-        res.status(500).json({ message: "Error fetching locations" });
+        console.error("Error fetching locations for transfer:", error);
+        res.status(500).json({ message: "Error fetching locations for transfer" });
     }
 });
 

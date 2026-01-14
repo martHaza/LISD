@@ -183,35 +183,52 @@ const headers = [
     "Pagaidu atrašanās vieta"
   ];
 
-  const lines = filteredItems.value.map(item => {
-    const user = findUserById(item.user_id);
-    return [
+  const lines = filteredItems.value.map(item => [
+    // const user = findUserById(item.user_id);
+    // return [
       item.title,
       item.item_number,
       item.item_code,
       item.description,
       item.exploitation_date,
-      item.user_email,
+      item.user_email || "-",
       // user ? user.username || user.email : "-",
-      item.factual_location,
-      item.juridical_location,
-      item.temp_location,
+      item.factual_location || "-",
+      item.juridical_location || "-",
+      item.temp_location || "-"
       // findFactualLocationById(item.factual_location_id)?.room || "-",
       // findJuridicalLocationById(item.juridical_location_id)?.room || "-",
       // findTempLocationById(item.temp_location_id)?.room || "-"
 
-    ].join("\t"); 
+    // ].join("\t"); 
+  ]);
+
+  const csvContent = [
+    headers.join(";"),
+    ...lines.map(line => line.map(cell => `"${cell}"`).join(";"))
+  ].join("\n");
+
+  const BOM = "\uFEFF";
+  const blob = new Blob([BOM + csvContent], { 
+    type: "text/csv;charset=utf-8;" 
   });
-
-  const tsvContent = [headers.join("\t"), ...lines].join("\n");
-  const blob = new Blob([tsvContent], { type: "text/tab-separated-values" });
+  
   const url = URL.createObjectURL(blob);
-
   const a = document.createElement("a");
   a.href = url;
-  a.download = `inventara_parskats_${new Date().toISOString().split("T")[0]}.tsv`;
+  a.download = `inventara_parskats_${new Date().toISOString().split("T")[0]}.csv`;
   a.click();
   URL.revokeObjectURL(url);
+
+  // const tsvContent = [headers.join("\t"), ...lines].join("\n");
+  // const blob = new Blob([tsvContent], { type: "text/tab-separated-values" });
+  // const url = URL.createObjectURL(blob);
+
+  // const a = document.createElement("a");
+  // a.href = url;
+  // a.download = `inventara_parskats_${new Date().toISOString().split("T")[0]}.tsv`;
+  // a.click();
+  // URL.revokeObjectURL(url);
 };
 
 onMounted(() => {
