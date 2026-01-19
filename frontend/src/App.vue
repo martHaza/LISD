@@ -10,6 +10,8 @@
       <router-link to="/inventory_overview">Inventāra pārvaldība</router-link> |
       <router-link to="/transfer_request">Inventāra pārvietošanas pieprasījums</router-link> |
       <router-link to="/inventory_request">Inventāra izsniegšanas pieprasījums</router-link> |
+      <router-link to="/inventory_request_overview">Inventāra izsniegšanas pārskats</router-link> |
+      <router-link to="/transfer_request_overview">Inventāra pārvietošanas pārskats</router-link> |     
       <button v-if="deferredPrompt" @click="installPWA">Instalēt PWA</button>
       <button v-if="authStore.token" @click="logoutAndRedirect">Logout</button>
       <select v-if="authStore.roles && authStore.roles.length > 1" v-model="authStore.currentRole">
