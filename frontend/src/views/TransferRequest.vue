@@ -133,7 +133,7 @@ onMounted(fetchItems);
       <select v-model="selectedItem" class="border p-2 select-field-item">
         <option value="" disabled>Izvēlies vienību...</option>
         <option v-for="item in items" :key="item.item_id" :value="item.item_id">
-          {{ item.title }} 
+          {{ item.title }} (Faktiskā atrašanās vieta: {{ item.factual_location_room }})
         </option>
       </select>
     </div>
