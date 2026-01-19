@@ -97,7 +97,7 @@ onMounted(fetchItems);
 
     <div class="mb-4">
       <label class="font-semibold block mb-1">Komentārs:</label>
-      <textarea v-model="requestInfo" rows="3" class="border p-2 w-full" placeholder="Papildu informācija"></textarea>
+      <textarea v-model="requestInfo" rows="3" class="border p-2 w-full"></textarea>
     </div>
 
     <div class="mb-4">
